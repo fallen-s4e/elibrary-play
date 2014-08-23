@@ -1,0 +1,14 @@
+This is your new Play 2.1 application
+=====================================
+
+This file will be packaged with your application, when using `play dist`.
+
+
+how it was created:
+===================
+
+cd /path/to/dir
+play new first-scala-project
+# set JAVA_HOME in bash_profile to point to JAVA7, not JAVA8. restart idea
+idea.sh &
+# Open -> open this project
