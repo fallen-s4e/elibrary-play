@@ -12,3 +12,9 @@ play new first-scala-project
 # set JAVA_HOME in bash_profile to point to JAVA7, not JAVA8. restart idea
 idea.sh &
 # Open -> open this project
+
+# cd /to/project/dir && play start # and then : play stop
+
+# install playframework support : C-M-s -> plugins -> find playframework support plugin -> install
+
+# to run play with auto-reload enabled type: 'play ~run'
