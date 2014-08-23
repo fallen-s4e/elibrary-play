@@ -11,6 +11,4 @@ object Application extends Controller {
   def take = Action {
     Ok(views.html.take())
   }
-
-
 }

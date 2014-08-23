@@ -18,3 +18,24 @@ idea.sh &
 # install playframework support : C-M-s -> plugins -> find playframework support plugin -> install
 
 # to run play with auto-reload enabled type: 'play ~run'
+
+creating a new page:
+====================
+
+# file take.scala.html:
+@()
+
+@templates.main("Welcome to Play 2.1") {
+    take-book!
+}
+
+# and then add the following code to Application.scala
+def take = Action {
+    Ok(views.html.take())
+}
+
+# and then add the following line to conf/routes:
+GET     /take                       controllers.Application.take
+
+# and after that we can use it in form like:
+<form action="@routes.Application.take()" method="post">
