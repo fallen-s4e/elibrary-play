@@ -11,4 +11,8 @@ object Application extends Controller {
   def take = Action {
     Ok(views.html.take())
   }
+
+  def putback = Action {
+    Ok(views.html.putback())
+  }
 }
