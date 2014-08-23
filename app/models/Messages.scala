@@ -9,7 +9,9 @@ object Messages {
   def selectAction = "Выберите действие:"
 
   object Actions {
-    def take    = "Взять книгу"
-    def putback = "Вернуть книгу на место"
+    def take           = "Взять книгу"
+    def putback        = "Вернуть книгу на место"
+    def library        = "Библиотека"
+    def administration = "Администрирование"
   }
 }

@@ -11,5 +11,11 @@ GET     /take                       controllers.Application.take
 # return a book
 GET     /putback                    controllers.Application.putback
 
+# library
+GET     /library                    controllers.Application.library
+
+# library
+GET     /administration             controllers.Application.administration
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

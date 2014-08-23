@@ -3,6 +3,8 @@
 @templates.main("Welcome to Play 2.1") {
     @models.Messages.selectAction
 
-    @{templates.formButton(routes.Application.take())     (models.Messages.Actions.take)    }
-    @{templates.formButton(routes.Application.putback())  (models.Messages.Actions.putback) }
+    @{templates.formButton(routes.Application.take())            (models.Messages.Actions.take)           }
+    @{templates.formButton(routes.Application.putback())         (models.Messages.Actions.putback)        }
+    @{templates.formButton(routes.Application.library())         (models.Messages.Actions.library)        }
+    @{templates.formButton(routes.Application.administration())  (models.Messages.Actions.administration) }
 }
