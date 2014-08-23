@@ -2,7 +2,5 @@
 
 @templates.main("Welcome to Play 2.1") {
     @models.Messages.selectAction
-    <form action="@routes.Application.take()" method="get">
-        <button>@models.Messages.Actions.take</button>
-    </form>
+    @templates.formButton(routes.Application.take())(models.Messages.Actions.take)
 }
