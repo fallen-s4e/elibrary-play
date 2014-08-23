@@ -8,8 +8,18 @@ object Application extends Controller {
     Ok(views.html.index())
   }
 
+  // step1: form where user choose his/her name
   def take = Action {
-    Ok(views.html.take())
+    Redirect(routes.Application.take1())
+  }
+
+  def take1 = Action {
+    Ok(views.html.take.step1())
+  }
+
+  // step2: form where user inputs the book to take
+  def take2 = Action {
+    Ok(views.html.take.step2())
   }
 
   def putback = Action {
