@@ -37,7 +37,13 @@ object Take extends Controller {
   }
 
   // step2: form where user inputs the book to take
-  def step2 = Action {
-    Ok(views.html.take.step2())
+  def step2 = Action { implicit request =>
+    take1Form.bindFromRequest.fold(
+      // Form has errors, redisplay it
+      errors => Redirect(routes.Take.step1()),
+
+      // We got a valid User value, display the summary
+      user => Ok(views.html.take.step2())
+    )
   }
 }

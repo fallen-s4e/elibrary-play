@@ -8,6 +8,9 @@ object Messages {
   def libraryTitle = "Электронная библятека"
   def selectAction = "Выберите действие:"
   def next = "Далее"
+  def prev = "Назад"
+  def personFIO = "Имя пользователя"
+  def enterPersonFIO = "Введите имя пользователя"
 
   object Actions {
     def take           = "Взять книгу"

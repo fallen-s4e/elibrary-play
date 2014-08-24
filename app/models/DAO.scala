@@ -24,7 +24,7 @@ class SlickFileDAO
   extends SlickDAOImpl("jdbc:h2:~/.h2-databases/elibrary/elibrary")
 
 /** and this class is gonna be exported */
-object SlickDAO extends SlickFilledMemoryDAO
+//object SlickDAO extends SlickFilledMemoryDAO
 
 /** this class is for visual testing */
 class SlickFilledMemoryDAO extends SlickMemoryDAO {
@@ -33,7 +33,9 @@ class SlickFilledMemoryDAO extends SlickMemoryDAO {
     insertPerson(new Person(None, "Сидор", "Сидоров", "Сидорович"))
     insertPerson(new Person(None, "Петр", "Петров", "Петрович"))
   }
-  init()
+  scala.util.control.Exception.ignoring(classOf[Exception]) {
+    init()
+  }
 }
 
 sealed case class SlickDAOImpl(dbURL : String) extends IDAO {
