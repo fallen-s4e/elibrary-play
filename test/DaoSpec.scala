@@ -11,9 +11,12 @@ class DaoSpec extends Specification {
   val slickDAO: IDAO = SlickMemoryDAO
 
   "Dao" should {
-    "insert values" in {
-      slickDAO.insertPerson(new Person(Some(1), "a", "b", "c"))
-//      slickDAO.getAllPersons().size should be > 0
+    "insert values and get" in {
+      slickDAO.insertPerson(new Person(None, "Иван",  "Иванов",   "Иванович"))
+      slickDAO.insertPerson(new Person(None, "Сидор", "Сидоров",  "Сидорович"))
+      slickDAO.insertPerson(new Person(None, "Петр",  "Петров",   "Петрович"))
+      println(slickDAO.getAllPersons())
+      slickDAO.getAllPersons().size === 3
       println(slickDAO.getAllPersons())
     }
   }
