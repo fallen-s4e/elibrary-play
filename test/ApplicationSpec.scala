@@ -30,11 +30,11 @@ class ApplicationSpec extends Specification {
       }
     }
     
-    "render the index page"    in { testPage("/")                  }
-    "render the take1 page"    in { testPage("/take/step1")        }
-    "render the take2 page"    in { testPage("/take/step2")        }
-    "render the putback page"  in { testPage("/putback")           }
-    "render the library page"  in { testPage("/library")           }
-    "render the admin page"    in { testPage("/administration")    }
+    "render the index page"    in { testPage("/")                             }
+    "render the take1 page"    in { testPage("/take/step1")                   }
+    "render the take2 page"    in { testPage("/take/step2?personId=1")        }
+    "render the putback page"  in { testPage("/putback")                      }
+    "render the library page"  in { testPage("/library")                      }
+    "render the admin page"    in { testPage("/administration")               }
   }
 }

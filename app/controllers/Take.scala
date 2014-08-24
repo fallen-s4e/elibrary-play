@@ -38,12 +38,12 @@ object Take extends Controller {
       errors => Ok(views.html.take.step1(errors)),
 
       // We got a valid User value, display the summary
-      user => Redirect(routes.Take.step2())
+      person => Redirect(routes.Take.step2(person.id.get))
     )
   }
 
   // step2: form where user inputs the book to take
-  def step2 = Action { implicit request =>
+  def step2(personId : Int) = Action { implicit request =>
     Ok(views.html.take.step2())
   }
 }
