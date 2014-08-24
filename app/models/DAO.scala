@@ -2,9 +2,8 @@ package models
 
 
 import scala.slick.driver.H2Driver
-import scala.slick.lifted.TableQuery
-
 import scala.slick.driver.H2Driver.simple._
+import scala.slick.lifted.TableQuery
 
 /**
  * @author magzhan.karasayev
@@ -12,6 +11,7 @@ import scala.slick.driver.H2Driver.simple._
  */
 trait IDAO {
   def getAllPersons() : List[Person]
+  def getPersonByFullName(fullName : String) : Option[Person]
   def insertPerson(person : Person) : Unit
 }
 
@@ -57,6 +57,20 @@ sealed case class SlickDAO(dbURL : String) extends IDAO {
   override def insertPerson(person: Person): Unit = {
     db.withSession { implicit session => {
         persons += person
+      }
+    }
+  }
+
+  override def getPersonByFullName(fullName: String): Option[Person] = {
+    db.withSession { implicit session => {
+        val res = for {
+          p <- persons if p.fullName === fullName
+        } yield p
+        val list: List[Person] = res.list
+        if (list.size > 1) {
+          throw new IllegalArgumentException("smth went wrong: more than one person with fullname = " + fullName)
+        }
+        list.headOption
       }
     }
   }

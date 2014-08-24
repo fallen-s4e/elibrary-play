@@ -11,10 +11,14 @@ import scala.slick.jdbc.{StaticQuery => Q}
  */
 class DaoSpec extends Specification {
 
+  val dummyPersons = List(
+    new Person(None, "Иван", "Иванов", "Иванович"),
+    new Person(None, "Сидор", "Сидоров", "Сидорович"),
+    new Person(None, "Петр", "Петров", "Петрович")
+  )
+
   def insertPersons(slickDAO: IDAO) {
-    slickDAO.insertPerson(new Person(None, "Иван", "Иванов", "Иванович"))
-    slickDAO.insertPerson(new Person(None, "Сидор", "Сидоров", "Сидорович"))
-    slickDAO.insertPerson(new Person(None, "Петр", "Петров", "Петрович"))
+    dummyPersons.foreach(slickDAO.insertPerson(_))
   }
 
   def cleanup() = {
@@ -38,6 +42,20 @@ class DaoSpec extends Specification {
         insertPersons(slickDAO)
       }
       slickDAO.getAllPersons().size === 3
+    }
+    "find person by fullname" in {
+      cleanup()
+      val slickDAO: IDAO = new SlickMemoryDAO()
+      insertPersons(slickDAO)
+      val person: Option[Person] = slickDAO.getPersonByFullName(dummyPersons.head.toFullName())
+      person !== None
+    }
+    "not find person by fullname if does not exist" in {
+      cleanup()
+      val slickDAO: IDAO = new SlickMemoryDAO()
+      insertPersons(slickDAO)
+      val person: Option[Person] = slickDAO.getPersonByFullName("NoSuchPerson")
+      person === None
     }
   }
 }
