@@ -1,6 +1,9 @@
 import models.{IDAO, Person, SlickMemoryDAO}
 import org.specs2.mutable._
 
+import scala.slick.driver.H2Driver.simple._
+import scala.slick.jdbc.{StaticQuery => Q}
+
 /**
  * Add your spec here.
  * You can mock out a whole application including requests, plugins etc.
@@ -8,16 +11,33 @@ import org.specs2.mutable._
  */
 class DaoSpec extends Specification {
 
-  val slickDAO: IDAO = SlickMemoryDAO
+  def insertPersons(slickDAO: IDAO) {
+    slickDAO.insertPerson(new Person(None, "Иван", "Иванов", "Иванович"))
+    slickDAO.insertPerson(new Person(None, "Сидор", "Сидоров", "Сидорович"))
+    slickDAO.insertPerson(new Person(None, "Петр", "Петров", "Петрович"))
+  }
+
+  def cleanup() = {
+    Database.forURL(new SlickMemoryDAO().dbURL, driver = "org.h2.Driver") withSession { implicit session =>
+      Q.updateNA("drop all objects").execute
+    }
+  }
 
   "Dao" should {
     "insert values and get" in {
-      slickDAO.insertPerson(new Person(None, "Иван",  "Иванов",   "Иванович"))
-      slickDAO.insertPerson(new Person(None, "Сидор", "Сидоров",  "Сидорович"))
-      slickDAO.insertPerson(new Person(None, "Петр",  "Петров",   "Петрович"))
-      println(slickDAO.getAllPersons())
+      cleanup()
+      val slickDAO: IDAO = new SlickMemoryDAO()
+      insertPersons(slickDAO)
       slickDAO.getAllPersons().size === 3
-      println(slickDAO.getAllPersons())
+    }
+    "restrict same values" in {
+      cleanup()
+      val slickDAO: IDAO = new SlickMemoryDAO()
+      insertPersons(slickDAO)
+      scala.util.control.Exception.ignoring(classOf[Throwable]) {
+        insertPersons(slickDAO)
+      }
+      slickDAO.getAllPersons().size === 3
     }
   }
 }

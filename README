@@ -44,3 +44,5 @@ GET     /take                       controllers.Application.take
 
 sbt:test-quick
 
+clear memory database:
+rm -rf ~/.h2-databases/*

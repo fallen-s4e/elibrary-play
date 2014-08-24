@@ -19,6 +19,8 @@ class Persons(tag : Tag)
   def lastName:   Column[String] = column[String]("LAST_NAME",  O.NotNull)
   def patronymic: Column[String] = column[String]("PATRONYMIC", O.NotNull)
 
+  def bIdx1 = index("b_idx1", (firstName, lastName, patronymic), unique = true)
+
   // Every table needs a * projection with the same type as the table's type parameter
   def * : ProvenShape[Person] =
     (id.?, firstName, lastName, patronymic) <> (Person.tupled, Person.unapply)

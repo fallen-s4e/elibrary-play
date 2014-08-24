@@ -15,13 +15,30 @@ trait IDAO {
   def insertPerson(person : Person) : Unit
 }
 
-object SlickMemoryDAO
-  extends SlickDAO(Database.forURL("jdbc:h2:mem:elibrary:;DB_CLOSE_DELAY=-1", driver="org.h2.Driver"))
+/** this class is for DAO unit tests */
+class SlickMemoryDAO
+  extends SlickDAO("jdbc:h2:~/.h2-databases/elibrary/elibrary")
 
-object SlickFileDAO
-  extends SlickDAO(Database.forURL("jdbc:h2:~/.h2-databases/elibrary/elibrary", driver="org.h2.Driver"))
+/** this class is for production mode */
+class SlickFileDAO
+  extends SlickDAO("jdbc:h2:~/.h2-databases/elibrary/elibrary")
 
-sealed case class SlickDAO(db : H2Driver.backend.DatabaseDef) extends IDAO {
+/** and this class is gonna be exported */
+object SlickDAO extends SlickFilledMemoryDAO
+
+/** this class is for visual testing */
+class SlickFilledMemoryDAO extends SlickMemoryDAO {
+  def init() = {
+    insertPerson(new Person(None, "Иван", "Иванов", "Иванович"))
+    insertPerson(new Person(None, "Сидор", "Сидоров", "Сидорович"))
+    insertPerson(new Person(None, "Петр", "Петров", "Петрович"))
+  }
+  init()
+}
+
+sealed case class SlickDAO(dbURL : String) extends IDAO {
+  val db : H2Driver.backend.DatabaseDef = Database.forURL(dbURL)
+
   val persons = TableQuery[Persons]
 
   // if it can not create ddl it is already exist
