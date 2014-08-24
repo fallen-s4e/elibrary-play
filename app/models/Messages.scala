@@ -7,11 +7,16 @@ package models
 object Messages {
   def libraryTitle = "Электронная библятека"
   def selectAction = "Выберите действие:"
+  def next = "Далее"
 
   object Actions {
     def take           = "Взять книгу"
     def putback        = "Вернуть книгу на место"
     def library        = "Библиотека"
     def administration = "Администрирование"
+  }
+
+  object Erorrs {
+    def personMustExist = "Нет такого пользователя"
   }
 }
