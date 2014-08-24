@@ -1,20 +1,9 @@
 package controllers
 
-import controllers.Application._
-import models.{SlickDAO, SlickDAOImpl, Person, Messages}
-import models.Messages.Erorrs
-import play.api.mvc._
-
-import play.api._
-import play.api.mvc._
-import play.api.data._
+import models.{Messages, Person, SlickDAO}
 import play.api.data.Forms._
-
-import scalaz._
-
-import views._
-
-import models._
+import play.api.data._
+import play.api.mvc._
 
 
 
@@ -37,4 +26,18 @@ object Take extends Controller {
       (SlickDAO.getPersonByFullName(_).get)
       ((p:Person) => Some(p.toFullName()))
   )
+
+  // step1: form where user choose his/her name
+  def take = Action {
+    Redirect(routes.Take.step1())
+  }
+
+  def step1 = Action {
+    Ok(views.html.take.step1())
+  }
+
+  // step2: form where user inputs the book to take
+  def step2 = Action {
+    Ok(views.html.take.step2())
+  }
 }
