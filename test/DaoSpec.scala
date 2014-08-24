@@ -1,4 +1,4 @@
-import models.{IDAO, Person, SlickDAO}
+import models.{IDAO, Person, SlickMemoryDAO}
 import org.specs2.mutable._
 
 /**
@@ -8,7 +8,7 @@ import org.specs2.mutable._
  */
 class DaoSpec extends Specification {
 
-  val slickDAO: IDAO = SlickDAO
+  val slickDAO: IDAO = SlickMemoryDAO
 
   "Dao" should {
     "insert values" in {

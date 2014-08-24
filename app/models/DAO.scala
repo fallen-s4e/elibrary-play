@@ -1,6 +1,7 @@
 package models
 
 
+import scala.slick.driver.H2Driver
 import scala.slick.lifted.TableQuery
 
 import scala.slick.driver.H2Driver.simple._
@@ -26,10 +27,14 @@ private class MockDAO extends IDAO {
   override def insertPerson(person: Person): Unit = { persons :+ person }
 }
 
-object SlickDAO extends IDAO {
+object SlickMemoryDAO
+  extends SlickDAO(Database.forURL("jdbc:h2:mem:elibrary:;DB_CLOSE_DELAY=-1", driver="org.h2.Driver"))
+
+object SlickFileDAO
+  extends SlickDAO(Database.forURL("jdbc:h2:~/.h2-databases/elibrary/elibrary", driver="org.h2.Driver"))
+
+case class SlickDAO(db : H2Driver.backend.DatabaseDef) extends IDAO {
   val persons = TableQuery[Persons]
-  val db = Database.forURL("jdbc:h2:mem:elibrary:;DB_CLOSE_DELAY=-1", driver="org.h2.Driver")
-//  val db = Database.forURL("jdbc:h2:~/.h2-databases/elibrary/elibrary", driver="org.h2.Driver")
 
   scala.util.control.Exception.ignoring(classOf[Exception]) {
     db.withSession { implicit session =>
