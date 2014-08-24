@@ -21,22 +21,21 @@ class DaoSpec extends Specification {
     dummyPersons.foreach(slickDAO.insertPerson(_))
   }
 
-  def cleanup() = {
+  def fresh() : IDAO = {
     Database.forURL(new SlickMemoryDAO().dbURL, driver = "org.h2.Driver") withSession { implicit session =>
       Q.updateNA("drop all objects").execute
     }
+    new SlickMemoryDAO()
   }
 
   "Dao" should {
     "insert values and get" in {
-      cleanup()
-      val slickDAO: IDAO = new SlickMemoryDAO()
+      val slickDAO: IDAO = fresh()
       insertPersons(slickDAO)
       slickDAO.getAllPersons().size === 3
     }
     "restrict same values" in {
-      cleanup()
-      val slickDAO: IDAO = new SlickMemoryDAO()
+      val slickDAO: IDAO = fresh()
       insertPersons(slickDAO)
       scala.util.control.Exception.ignoring(classOf[Throwable]) {
         insertPersons(slickDAO)
@@ -44,15 +43,13 @@ class DaoSpec extends Specification {
       slickDAO.getAllPersons().size === 3
     }
     "find person by fullname" in {
-      cleanup()
-      val slickDAO: IDAO = new SlickMemoryDAO()
+      val slickDAO: IDAO = fresh()
       insertPersons(slickDAO)
       val person: Option[Person] = slickDAO.getPersonByFullName(dummyPersons.head.toFullName())
       person !== None
     }
     "not find person by fullname if does not exist" in {
-      cleanup()
-      val slickDAO: IDAO = new SlickMemoryDAO()
+      val slickDAO: IDAO = fresh()
       insertPersons(slickDAO)
       val person: Option[Person] = slickDAO.getPersonByFullName("NoSuchPerson")
       person === None
