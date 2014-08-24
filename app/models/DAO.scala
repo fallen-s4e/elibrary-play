@@ -3,6 +3,7 @@ package models
 
 import scala.slick.driver.H2Driver
 import scala.slick.driver.H2Driver.simple._
+import scala.slick.lifted
 import scala.slick.lifted.TableQuery
 
 /**
@@ -13,6 +14,9 @@ trait IDAO {
   def getAllPersons() : List[Person]
   def getPersonByFullName(fullName : String) : Option[Person]
   def insertPerson(person : Person) : Unit
+
+  def insertBook(book : Book) : Unit
+  def getBookById(bookId : Int) : Option[Book]
 }
 
 /** this class is for DAO unit tests */
@@ -32,6 +36,10 @@ class SlickFilledMemoryDAO extends SlickMemoryDAO {
     insertPerson(new Person(None, "Иван", "Иванов", "Иванович"))
     insertPerson(new Person(None, "Сидор", "Сидоров", "Сидорович"))
     insertPerson(new Person(None, "Петр", "Петров", "Петрович"))
+    
+    insertBook(new Book(None, "bookName1", "author1", "theme1", "description1", "barcode1", "bookType1"))
+    insertBook(new Book(None, "bookName2", "author2", "theme2", "description2", "barcode2", "bookType2"))
+    insertBook(new Book(None, "bookName3", "author3", "theme3", "description3", "barcode3", "bookType3"))
   }
   scala.util.control.Exception.ignoring(classOf[Exception]) {
     init()
@@ -42,11 +50,13 @@ sealed case class SlickDAOImpl(dbURL : String) extends IDAO {
   val db : H2Driver.backend.DatabaseDef = Database.forURL(dbURL)
 
   val persons = TableQuery[Persons]
+  val books = TableQuery[Books]
 
   // if it can not create ddl it is already exist
   scala.util.control.Exception.ignoring(classOf[Exception]) {
     db.withSession { implicit session =>
       persons.ddl.create
+      books.ddl.create
     }
   }
 
@@ -75,6 +85,19 @@ sealed case class SlickDAOImpl(dbURL : String) extends IDAO {
         list.headOption
       }
     }
+  }
+
+  override def insertBook(book: Book): Unit = {
+    db.withSession { implicit session => {
+        books += book
+    }}
+  }
+
+  override def getBookById(bookId: Int): Option[Book] = {
+    db.withSession { implicit session => {
+      val query: lifted.Query[Books, Book, Seq] = for { b <- books if b.id === bookId } yield b
+      query.list.headOption 
+    }}
   }
 }
 

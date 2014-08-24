@@ -31,3 +31,27 @@ class Persons(tag : Tag)
 
   def fullName = firstName ++ " "  ++ lastName ++ " "  ++ patronymic
 }
+
+//----------------------------------------------------------------------------------------------------------------
+case class Book(id : Option[Int], bookName : String, author : String,
+                theme : String, description : String, barCode : String, bookType : String
+                 )
+
+class Books(tag : Tag)
+  extends Table[Book](tag, "BOOKS") {
+  // This is the primary key column:
+  def id: Column[Int]      = column[Int]("ID", O.PrimaryKey, O.AutoInc)
+
+  def bookName:  Column[String]     = column[String]("BOOK_NAME",   O.NotNull)
+  def author:   Column[String]      = column[String]("AUTHOR",      O.NotNull)
+  def theme: Column[String]         = column[String]("THEME",       O.NotNull)
+  def description: Column[String]   = column[String]("DESCRIPTION", O.NotNull)
+  def barCode: Column[String]       = column[String]("BAR_CODE",    O.NotNull)
+  def bookType: Column[String]      = column[String]("BOOK_TYPE",   O.NotNull)
+
+  // Every table needs a * projection with the same type as the table's type parameter
+  def * : ProvenShape[Book] =
+    (id.?, bookName, author, theme, description, barCode, bookType) <> (Book.tupled, Book.unapply)
+}
+
+

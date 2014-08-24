@@ -1,4 +1,4 @@
-import models.{IDAO, Person, SlickMemoryDAO}
+import models.{Book, IDAO, Person, SlickMemoryDAO}
 import org.specs2.mutable._
 
 import scala.slick.driver.H2Driver.simple._
@@ -15,6 +15,12 @@ class DaoSpec extends Specification {
     new Person(None, "Иван", "Иванов", "Иванович"),
     new Person(None, "Сидор", "Сидоров", "Сидорович"),
     new Person(None, "Петр", "Петров", "Петрович")
+  )
+  
+  val dummyBooks = List(
+    new Book(Some(1), "bookName1", "author1", "theme1", "description1", "barcode1", "bookType1"),
+    new Book(Some(2), "bookName2", "author2", "theme2", "description2", "barcode2", "bookType2"),
+    new Book(Some(3), "bookName3", "author3", "theme3", "description3", "barcode3", "bookType3")
   )
 
   def insertPersons(slickDAO: IDAO) {
@@ -53,6 +59,12 @@ class DaoSpec extends Specification {
       insertPersons(slickDAO)
       val person: Option[Person] = slickDAO.getPersonByFullName("NoSuchPerson")
       person === None
+    }
+    "insert and find this inserted book" in {
+      val slickDAO: IDAO = fresh()
+      val firstBook: Book = dummyBooks.head
+      slickDAO.insertBook(firstBook)
+      Some(firstBook) === slickDAO.getBookById(firstBook.id.get)
     }
   }
 }
