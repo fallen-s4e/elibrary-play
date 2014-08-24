@@ -39,3 +39,8 @@ GET     /take                       controllers.Application.take
 
 # and after that we can use it in form like:
 <form action="@routes.Application.take()" method="post">
+
+---------------------------------------------------------------------------
+
+sbt:test-quick
+
