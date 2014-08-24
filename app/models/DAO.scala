@@ -17,11 +17,11 @@ trait IDAO {
 
 /** this class is for DAO unit tests */
 class SlickMemoryDAO
-  extends SlickDAO("jdbc:h2:~/.h2-databases/elibrary/elibrary")
+  extends SlickDAOImpl("jdbc:h2:~/.h2-databases/elibrary/elibrary")
 
 /** this class is for production mode */
 class SlickFileDAO
-  extends SlickDAO("jdbc:h2:~/.h2-databases/elibrary/elibrary")
+  extends SlickDAOImpl("jdbc:h2:~/.h2-databases/elibrary/elibrary")
 
 /** and this class is gonna be exported */
 object SlickDAO extends SlickFilledMemoryDAO
@@ -36,7 +36,7 @@ class SlickFilledMemoryDAO extends SlickMemoryDAO {
   init()
 }
 
-sealed case class SlickDAO(dbURL : String) extends IDAO {
+sealed case class SlickDAOImpl(dbURL : String) extends IDAO {
   val db : H2Driver.backend.DatabaseDef = Database.forURL(dbURL)
 
   val persons = TableQuery[Persons]
