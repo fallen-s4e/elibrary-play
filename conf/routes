@@ -6,6 +6,9 @@
 GET     /                           controllers.Application.index
 
 # take a book
+GET     /take                       controllers.Take.take
+
+# take a book
 GET     /take/step1                 controllers.Take.step1
 
 # take a book
@@ -21,4 +24,4 @@ GET     /library                    controllers.Application.library
 GET     /administration             controllers.Application.administration
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file               controllers.Assets.at(path="/public", file)
+GET     /public/*file               controllers.Assets.at(path="/public", file)
