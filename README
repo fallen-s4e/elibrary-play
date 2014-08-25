@@ -50,3 +50,22 @@ rm -rf ~/.h2-databases/*
 Я не победил отображение enumerations в базу данных, пока воспользуюсь просто строкой =\
 
 ---------------------------------------------------------------------------
+
+
+/*
+// dont need this code, but I'll save it just in case
+class PersonToBook(tag : Tag)
+  extends Table[(Int, Int)](tag, "PERSONS_TO_BOOKS") {
+  def personId = column[Int]("PERSON_ID")
+
+  def bookId = column[Int]("BOOK_ID")
+
+  def * : ProvenShape[(Int, Int)] = (personId, bookId)
+
+  def person: ForeignKeyQuery[Persons, Person] =
+    foreignKey("PERSONS_FK", personId, TableQuery[Persons])(_.id)
+
+  def book: ForeignKeyQuery[Books, Book] =
+    foreignKey("BOOKS_FK", bookId, TableQuery[Books])(_.id)
+}
+*/

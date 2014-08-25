@@ -38,9 +38,9 @@ class SlickFilledMemoryDAO extends SlickMemoryDAO {
     insertPerson(new Person(None, "Сидор", "Сидоров", "Сидорович"))
     insertPerson(new Person(None, "Петр", "Петров", "Петрович"))
     
-    insertBook(new Book(None, "bookName1", "author1", "theme1", "description1", "barcode1", "bookType1"))
-    insertBook(new Book(None, "bookName2", "author2", "theme2", "description2", "barcode2", "bookType2"))
-    insertBook(new Book(None, "bookName3", "author3", "theme3", "description3", "barcode3", "bookType3"))
+    insertBook(new Book(None, "bookName1", "author1", "theme1", "description1", "barcode1", "bookType1", None))
+    insertBook(new Book(None, "bookName2", "author2", "theme2", "description2", "barcode2", "bookType2", None))
+    insertBook(new Book(None, "bookName3", "author3", "theme3", "description3", "barcode3", "bookType3", None))
   }
   scala.util.control.Exception.ignoring(classOf[Exception]) {
     init()

@@ -18,9 +18,9 @@ class DaoSpec extends Specification {
   )
   
   val dummyBooks = List(
-    new Book(Some(1), "bookName1", "author1", "theme1", "description1", "barcode1", "bookType1"),
-    new Book(Some(2), "bookName2", "author2", "theme2", "description2", "barcode2", "bookType2"),
-    new Book(Some(3), "bookName3", "author3", "theme3", "description3", "barcode3", "bookType3")
+    new Book(Some(1), "bookName1", "author1", "theme1", "description1", "barcode1", "bookType1", None),
+    new Book(Some(2), "bookName2", "author2", "theme2", "description2", "barcode2", "bookType2", None),
+    new Book(Some(3), "bookName3", "author3", "theme3", "description3", "barcode3", "bookType3", None)
   )
 
   def insertPersons(slickDAO: IDAO) {

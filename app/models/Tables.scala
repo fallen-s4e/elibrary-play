@@ -1,7 +1,7 @@
 package models
 
 import scala.slick.driver.H2Driver.simple._
-import scala.slick.lifted.ProvenShape
+import scala.slick.lifted.{ForeignKeyQuery, ProvenShape}
 
 /**
  * @author magzhan.karasayev
@@ -34,7 +34,8 @@ class Persons(tag : Tag)
 
 //----------------------------------------------------------------------------------------------------------------
 case class Book(id : Option[Int], bookName : String, author : String,
-                theme : String, description : String, barCode : String, bookType : String
+                theme : String, description : String, barCode : String, bookType : String,
+                personId : Option[Int]
                  )
 
 class Books(tag : Tag)
@@ -49,9 +50,14 @@ class Books(tag : Tag)
   def barCode: Column[String]       = column[String]("BAR_CODE",    O.NotNull)
   def bookType: Column[String]      = column[String]("BOOK_TYPE",   O.NotNull)
 
+  def personId: Column[Int] = column[Int]("PERSON_ID")
+
   // Every table needs a * projection with the same type as the table's type parameter
   def * : ProvenShape[Book] =
-    (id.?, bookName, author, theme, description, barCode, bookType) <> (Book.tupled, Book.unapply)
+    (id.?, bookName, author, theme, description, barCode, bookType, personId.?) <> (Book.tupled, Book.unapply)
+
+  def book: ForeignKeyQuery[Persons, Person] =
+    foreignKey("PERSONS_FK", personId, TableQuery[Persons])(_.id)
 }
 
-
+//-----------------------------------------------------------------------------------------------------------
