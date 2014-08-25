@@ -12,9 +12,9 @@ import scala.slick.jdbc.{StaticQuery => Q}
 class DaoSpec extends Specification {
 
   val dummyPersons = List(
-    new Person(None, "Иван", "Иванов", "Иванович"),
-    new Person(None, "Сидор", "Сидоров", "Сидорович"),
-    new Person(None, "Петр", "Петров", "Петрович")
+    new Person(Some(1), "Иван", "Иванов", "Иванович"),
+    new Person(Some(2), "Сидор", "Сидоров", "Сидорович"),
+    new Person(Some(3), "Петр", "Петров", "Петрович")
   )
   
   val dummyBooks = List(
@@ -52,6 +52,12 @@ class DaoSpec extends Specification {
       val slickDAO: IDAO = fresh()
       insertPersons(slickDAO)
       val person: Option[Person] = slickDAO.getPersonByFullName(dummyPersons.head.toFullName())
+      person !== None
+    }
+    "find person by id" in {
+      val slickDAO: IDAO = fresh()
+      insertPersons(slickDAO)
+      val person: Option[Person] = slickDAO.getPersonById(dummyPersons.head.id.get)
       person !== None
     }
     "not find person by fullname if does not exist" in {

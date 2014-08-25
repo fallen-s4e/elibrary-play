@@ -13,6 +13,7 @@ import scala.slick.lifted.TableQuery
 trait IDAO {
   def getAllPersons() : List[Person]
   def getPersonByFullName(fullName : String) : Option[Person]
+  def getPersonById(id : Int) : Option[Person]
   def insertPerson(person : Person) : Unit
 
   def insertBook(book : Book) : Unit
@@ -84,6 +85,14 @@ sealed case class SlickDAOImpl(dbURL : String) extends IDAO {
         }
         list.headOption
       }
+    }
+  }
+
+  override def getPersonById(personId: Int): Option[Person] = {
+    db.withSession { implicit session => {
+      val query: lifted.Query[Persons, Person, Seq] = for { b <- persons if b.id === personId } yield b
+      query.list.headOption
+    }
     }
   }
 
