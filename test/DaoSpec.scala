@@ -72,5 +72,17 @@ class DaoSpec extends Specification {
       slickDAO.insertBook(firstBook)
       Some(firstBook) === slickDAO.getBookById(firstBook.id.get)
     }
+    "add a book to a person" in {
+      val slickDAO: IDAO = fresh()
+      val firstBook: Book      = dummyBooks.head
+      val firstPerson : Person = dummyPersons.head
+
+      slickDAO.insertBook(firstBook)
+      slickDAO.insertPerson(firstPerson)
+      slickDAO.addBookToPerson(firstPerson, firstBook)
+
+      slickDAO.getBookById(firstBook.id.get) should not be None
+      Some(firstPerson.id.get) === slickDAO.getBookById(firstBook.id.get).get.personId
+    }
   }
 }

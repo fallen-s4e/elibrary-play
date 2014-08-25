@@ -18,6 +18,8 @@ trait IDAO {
 
   def insertBook(book : Book) : Unit
   def getBookById(bookId : Int) : Option[Book]
+
+  def addBookToPerson(person : Person, book : Book) : Unit
 }
 
 /** this class is for DAO unit tests */
@@ -106,6 +108,14 @@ sealed case class SlickDAOImpl(dbURL : String) extends IDAO {
     db.withSession { implicit session => {
       val query: lifted.Query[Books, Book, Seq] = for { b <- books if b.id === bookId } yield b
       query.list.headOption 
+    }}
+  }
+
+  override def addBookToPerson(person: Person, book: Book): Unit = {
+    db.withSession { implicit session => {
+      books.filter(_.id === book.id)
+        .map(b => b.personId)
+        .update(person.id)
     }}
   }
 }

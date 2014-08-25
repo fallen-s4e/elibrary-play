@@ -50,11 +50,11 @@ class Books(tag : Tag)
   def barCode: Column[String]       = column[String]("BAR_CODE",    O.NotNull)
   def bookType: Column[String]      = column[String]("BOOK_TYPE",   O.NotNull)
 
-  def personId: Column[Int] = column[Int]("PERSON_ID")
+  def personId: Column[Option[Int]] = column[Int]("PERSON_ID", O.Nullable)
 
   // Every table needs a * projection with the same type as the table's type parameter
   def * : ProvenShape[Book] =
-    (id.?, bookName, author, theme, description, barCode, bookType, personId.?) <> (Book.tupled, Book.unapply)
+    (id.?, bookName, author, theme, description, barCode, bookType, personId) <> (Book.tupled, Book.unapply)
 
   def book: ForeignKeyQuery[Persons, Person] =
     foreignKey("PERSONS_FK", personId, TableQuery[Persons])(_.id)
