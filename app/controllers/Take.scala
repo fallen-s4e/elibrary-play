@@ -53,18 +53,37 @@ object Take extends Controller {
   }
 
   // step2: form where user inputs the book to take
-  def step2(personId : Int) = Action { implicit request =>
+  def step2(personId: Int) = Action { implicit request =>
     SlickDAO.getPersonById(personId) match {
-      case None         => Redirect(routes.Take.take())
+      case None => Redirect(routes.Take.take())
+      case Some(person) => {
+        Ok(views.html.take.step2(person)(take2Form.discardingErrors))
+      }
+    }
+  }
+
+  // step2: form where user inputs the book to take
+  def step3(personId: Int) = Action { implicit request =>
+    SlickDAO.getPersonById(personId) match {
+      case None => Redirect(routes.Take.take())
       case Some(person) => {
         take2Form.bindFromRequest.fold(
-          errors => { Ok(views.html.take.step2(person)(errors)) },
-          book   => {
+          errors => {
+            Ok(views.html.take.step2(person)(errors))
+          },
+          book => {
             SlickDAO.addBookToPerson(person, book)
-            Ok(views.html.take.step3(person))
+            Redirect(routes.Take.finish(personId))
           }
         )
       }
+    }
+  }
+
+  def finish(personId: Int) = Action { implicit request =>
+    SlickDAO.getPersonById(personId) match {
+      case None => Redirect(routes.Take.take())
+      case Some(person) => Ok(views.html.take.finish(person))
     }
   }
 }

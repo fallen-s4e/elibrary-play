@@ -14,7 +14,9 @@ GET     /take/step1                 controllers.Take.step1
 # take a book
 GET     /take/step2                 controllers.Take.step2(personId : Int)
 
-GET     /take/step2                 controllers.Take.step2(personId : Int)
+GET     /take/step3                 controllers.Take.step3(personId : Int)
+
+GET     /take/finish                controllers.Take.finish(personId : Int)
 
 # return a book
 GET     /putback                    controllers.Application.putback
