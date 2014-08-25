@@ -9,8 +9,12 @@ object Messages {
   def selectAction = "Выберите действие:"
   def next = "Далее"
   def prev = "Назад"
+
   def personFIO = "Имя пользователя"
   def enterPersonFIO = "Введите имя пользователя"
+
+  def bookID = "Номер книги"
+  def enterBookId = "Введите номер книги"
 
   object Actions {
     def take           = "Взять книгу"
@@ -21,5 +25,6 @@ object Messages {
 
   object Erorrs {
     def personMustExist = "Нет такого пользователя"
+    def bookMustExist = "Нет такой книги"
   }
 }

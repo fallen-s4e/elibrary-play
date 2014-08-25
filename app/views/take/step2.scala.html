@@ -1,5 +1,25 @@
-@()
+@(person : Person)(formBook : Form[Book])
+
+@import helper._
+@import helper.twitterBootstrap._
 
 @templates.main("Welcome to Play 2.1") {
-    take-book(step2)!
+    @helper.form(action = routes.Take.step2(person.id.get)) {
+        <fieldset>
+            <legend>book info</legend>
+
+            @inputText(
+                formBook("bookId"),
+                '_label -> models.Messages.bookID,
+                '_help -> models.Messages.enterBookId,
+                '_error -> formBook.globalError
+            )
+            <input type="hidden" name="personId" value="@person.id.get" >
+
+            <a href="@routes.Take.take()">
+                <input type="button" class="btn primary" value="@models.Messages.prev">
+            </a>
+            <input type="submit" class="btn primary" value="@models.Messages.next">
+        </fieldset>
+    }
 }

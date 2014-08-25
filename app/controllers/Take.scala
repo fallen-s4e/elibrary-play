@@ -1,6 +1,6 @@
 package controllers
 
-import models.{Messages, Person, SlickDAO}
+import models.{Book, Messages, Person, SlickDAO}
 import play.api.data.Forms._
 import play.api.data._
 import play.api.mvc._
@@ -8,23 +8,33 @@ import play.api.mvc._
 
 
 object Take extends Controller {
-  /**
-   * Sign Up Form definition.
-   *
-   * Once defined it handle automatically, ,
-   * validation, submission, errors, redisplaying, ...
-   */
-  val take1Form: Form[Person] = Form(
 
-    // Define a mapping that will handle User values
+  val take1Form: Form[Person] = Form(
+    // Define a mapping that will handle Person values
     mapping(
       "personFIO" -> nonEmptyText.verifying(
-        // Add an additional constraint: both passwords must match
-        Messages.Erorrs.personMustExist, personFIO => {SlickDAO.getPersonByFullName(personFIO).isDefined}
+        // Add an additional constraint: person must exist
+        Messages.Erorrs.personMustExist, personFIO => {
+          SlickDAO.getPersonByFullName(personFIO).isDefined
+        }
       )
     )
       (SlickDAO.getPersonByFullName(_).get)
-      ((p:Person) => Some(p.toFullName()))
+      ((p: Person) => Some(p.toFullName()))
+  )
+
+  val take2Form: Form[Book] = Form(
+    // Define a mapping that will handle Person values
+    mapping(
+      "bookId" -> number.verifying(
+        // Add an additional constraint: book must exist
+        Messages.Erorrs.bookMustExist, bookId => {
+          SlickDAO.getBookById(bookId).isDefined
+        }
+      )
+    )
+      (SlickDAO.getBookById(_).get)
+      ((b: Book) => b.id)
   )
 
   // step1: form where user choose his/her name
@@ -44,6 +54,17 @@ object Take extends Controller {
 
   // step2: form where user inputs the book to take
   def step2(personId : Int) = Action { implicit request =>
-    Ok(views.html.take.step2())
+    SlickDAO.getPersonById(personId) match {
+      case None         => Redirect(routes.Take.take())
+      case Some(person) => {
+        take2Form.bindFromRequest.fold(
+          errors => { Ok(views.html.take.step2(person)(errors)) },
+          book   => {
+            SlickDAO.addBookToPerson(person, book)
+            Ok(views.html.take.step3(person))
+          }
+        )
+      }
+    }
   }
 }
