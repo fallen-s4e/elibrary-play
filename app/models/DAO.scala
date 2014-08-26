@@ -20,6 +20,12 @@ trait IDAO {
   def getBookById(bookId : Int) : Option[Book]
 
   def addBookToPerson(person : Person, book : Book) : Unit
+
+  def addThemeToBook(book : Book, theme : String) : Unit
+  def addThemeToThemeGroup(theme : String, themeGroup : String) : Unit
+
+  def getBooksByTheme(theme : String) : List[Book]
+  def getThemesByThemegroup(themeGroup : String) : List[String]
 }
 
 /** this class is for DAO unit tests */
@@ -47,13 +53,19 @@ class SlickFilledMemoryDAO extends SlickMemoryDAO {
   scala.util.control.Exception.ignoring(classOf[Exception]) {
     init()
   }
+
+  override def addThemeToBook(book: Book, theme: String): Unit = ???
+
+  override def addThemeToThemeGroup(theme: String, themeGroup: String): Unit = ???
 }
 
 sealed case class SlickDAOImpl(dbURL : String) extends IDAO {
   val db : H2Driver.backend.DatabaseDef = Database.forURL(dbURL)
 
-  val persons = TableQuery[Persons]
-  val books = TableQuery[Books]
+  val persons              = TableQuery[Persons]
+  val books                = TableQuery[Books]
+  val themesToBooks        = TableQuery[ThemesToBooks]
+  val themesToThemeGroups  = TableQuery[ThemesToThemeGroups]
 
   // if it can not create ddl it is already exist
   scala.util.control.Exception.ignoring(classOf[Exception]) {
@@ -116,6 +128,43 @@ sealed case class SlickDAOImpl(dbURL : String) extends IDAO {
       books.filter(_.id === book.id)
         .map(b => b.personId)
         .update(person.id)
+    }}
+  }
+
+  override def addThemeToBook(book: Book, theme: String): Unit = {
+    db.withSession { implicit session => {
+      if (themesToBooks.filter(b => b.bookId === book.id && b.themeName === theme).list.size == 0) {
+        themesToBooks += ThemeToBook(None, theme, book.id.get)
+      }
+    }}
+  }
+
+  override def addThemeToThemeGroup(theme: String, themeGroup: String): Unit = {
+    db.withSession { implicit session => {
+      if (themesToThemeGroups.filter(r => r.themeName === theme && r.themeGroupName === themeGroup).list.size == 0) {
+        themesToThemeGroups += ThemeToThemeGroup(None, theme, themeGroup)
+      }
+    }}
+  }
+
+  override def getBooksByTheme(theme: String): List[Book] = {
+    db.withSession { implicit session => {
+      val query: lifted.Query[Books, Book, Seq] = for {
+        ttb <- themesToBooks
+        book <- books
+        if (ttb.themeName == theme && ttb.bookId == book.id)
+      } yield book
+      query.list
+    }}
+  }
+
+  override def getThemesByThemegroup(themeGroup: String): List[String] = {
+    db.withSession { implicit session => {
+      val query: lifted.Query[lifted.Column[String], String, Seq] = for {
+        tttg <- themesToThemeGroups
+        if (tttg.themeGroupName == themeGroup)
+      } yield tttg.themeName
+      query.list
     }}
   }
 }

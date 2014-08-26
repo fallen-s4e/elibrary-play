@@ -61,3 +61,42 @@ class Books(tag : Tag)
 }
 
 //-----------------------------------------------------------------------------------------------------------
+
+case class ThemeToBook(id        : Option[Int],
+                       themeName : String,
+                       bookId    : Int)
+
+class ThemesToBooks(tag : Tag)
+  extends Table[ThemeToBook](tag, "THEMES_TO_BOOKS") {
+
+  def id: Column[Int] = column[Int]("ID", O.PrimaryKey, O.AutoInc)
+
+  def themeName: Column[String] = column[String]("THEME_NAME", O.NotNull)
+
+  def bookId = column[Int]("BOOK_ID", O.NotNull)
+
+  def * : ProvenShape[ThemeToBook] = (id?, themeName, bookId) <> (ThemeToBook.tupled, ThemeToBook.unapply)
+
+  def book: ForeignKeyQuery[Books, Book] =
+    foreignKey("THEMES_TO_BOOKS_FK", bookId, TableQuery[Books])(_.id)
+}
+
+//-----------------------------------------------------------------------------------------------------------
+
+case class ThemeToThemeGroup(id                : Option[Int],
+                             themeName         : String,
+                             themeGroupName    : String)
+
+class ThemesToThemeGroups(tag : Tag)
+  extends Table[ThemeToThemeGroup](tag, "THEMES_TO_THEMEGROUPS") {
+
+  def id: Column[Int] = column[Int]("ID", O.PrimaryKey, O.AutoInc)
+
+  def themeName      : Column[String] = column[String]("THEME_NAME", O.NotNull)
+
+  def themeGroupName : Column[String] = column[String]("THEME_NAME", O.NotNull)
+
+  def * : ProvenShape[ThemeToThemeGroup] = (id?, themeName, themeGroupName) <> (ThemeToThemeGroup.tupled, ThemeToThemeGroup.unapply)
+
+  def rowIndex = index("THEMES_TO_THEMEGROUPS_INDEX", (themeName, themeGroupName), unique = true)
+}
