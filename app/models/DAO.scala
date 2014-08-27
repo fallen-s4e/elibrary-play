@@ -42,13 +42,8 @@ class SlickFileDAO
 /** this class is for visual testing */
 class SlickFilledMemoryDAO extends SlickMemoryDAO {
   def init() = {
-    insertPerson(new Person(None, "Иван", "Иванов", "Иванович"))
-    insertPerson(new Person(None, "Сидор", "Сидоров", "Сидорович"))
-    insertPerson(new Person(None, "Петр", "Петров", "Петрович"))
-    
-    insertBook(new Book(None, "bookName1", "author1", "description1", "barcode1", "bookType1", None))
-    insertBook(new Book(None, "bookName2", "author2", "description2", "barcode2", "bookType2", None))
-    insertBook(new Book(None, "bookName3", "author3", "description3", "barcode3", "bookType3", None))
+    DummyRows.persons.foreach(insertPerson(_))
+    DummyRows.books.foreach(insertBook(_))
   }
   scala.util.control.Exception.ignoring(classOf[Exception]) {
     init()

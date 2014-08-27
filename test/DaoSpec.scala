@@ -1,4 +1,4 @@
-import models.{Book, IDAO, Person, SlickMemoryDAO}
+import models._
 import org.specs2.mutable._
 
 import scala.slick.driver.H2Driver.simple._
@@ -11,20 +11,8 @@ import scala.slick.jdbc.{StaticQuery => Q}
  */
 class DaoSpec extends Specification {
 
-  val dummyPersons = List(
-    new Person(Some(1), "Иван", "Иванов", "Иванович"),
-    new Person(Some(2), "Сидор", "Сидоров", "Сидорович"),
-    new Person(Some(3), "Петр", "Петров", "Петрович")
-  )
-  
-  val dummyBooks = List(
-    new Book(Some(1), "bookName1", "author1", "description1", "barcode1", "bookType1", None),
-    new Book(Some(2), "bookName2", "author2", "description2", "barcode2", "bookType2", None),
-    new Book(Some(3), "bookName3", "author3", "description3", "barcode3", "bookType3", None)
-  )
-
   def insertPersons(slickDAO: IDAO) {
-    dummyPersons.foreach(slickDAO.insertPerson(_))
+    DummyRows.persons.foreach(slickDAO.insertPerson(_))
   }
 
   def fresh() : IDAO = {
@@ -51,13 +39,13 @@ class DaoSpec extends Specification {
     "find person by fullname" in {
       val slickDAO: IDAO = fresh()
       insertPersons(slickDAO)
-      val person: Option[Person] = slickDAO.getPersonByFullName(dummyPersons.head.toFullName())
+      val person: Option[Person] = slickDAO.getPersonByFullName(DummyRows.persons.head.toFullName())
       person !== None
     }
     "find person by id" in {
       val slickDAO: IDAO = fresh()
       insertPersons(slickDAO)
-      val person: Option[Person] = slickDAO.getPersonById(dummyPersons.head.id.get)
+      val person: Option[Person] = slickDAO.getPersonById(DummyRows.persons.head.id.get)
       person !== None
     }
     "not find person by fullname if does not exist" in {
@@ -68,14 +56,14 @@ class DaoSpec extends Specification {
     }
     "insert and find this inserted book" in {
       val slickDAO: IDAO = fresh()
-      val firstBook: Book = dummyBooks.head
+      val firstBook: Book = DummyRows.books.head
       slickDAO.insertBook(firstBook)
       Some(firstBook) === slickDAO.getBookById(firstBook.id.get)
     }
     "add a book to a person" in {
       val slickDAO: IDAO = fresh()
-      val firstBook: Book      = dummyBooks.head
-      val firstPerson : Person = dummyPersons.head
+      val firstBook: Book      = DummyRows.books.head
+      val firstPerson : Person = DummyRows.persons.head
 
       slickDAO.insertBook(firstBook)
       slickDAO.insertPerson(firstPerson)
