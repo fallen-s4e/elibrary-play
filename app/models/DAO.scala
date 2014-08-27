@@ -48,14 +48,12 @@ class SlickFilledMemoryDAO extends SlickMemoryDAO {
   scala.util.control.Exception.ignoring(classOf[Exception]) {
     init()
   }
-
-  override def addThemeToBook(book: Book, theme: String): Unit = ???
-
-  override def addThemeToThemeGroup(theme: String, themeGroup: String): Unit = ???
 }
 
 sealed case class SlickDAOImpl(dbURL : String) extends IDAO {
   val db : H2Driver.backend.DatabaseDef = Database.forURL(dbURL)
+
+  val logger = java.util.logging.Logger.getLogger(this.getClass.getName)
 
   val persons              = TableQuery[Persons]
   val books                = TableQuery[Books]
@@ -65,8 +63,8 @@ sealed case class SlickDAOImpl(dbURL : String) extends IDAO {
   // if it can not create ddl it is already exist
   scala.util.control.Exception.ignoring(classOf[Exception]) {
     db.withSession { implicit session =>
-      persons.ddl.create
-      books.ddl.create
+      List(persons, books, themesToBooks, themesToThemeGroups).
+        foreach(_.ddl.create)
     }
   }
 
@@ -127,6 +125,7 @@ sealed case class SlickDAOImpl(dbURL : String) extends IDAO {
   }
 
   override def addThemeToBook(book: Book, theme: String): Unit = {
+    logger.info(String.format("adding theme %s to book %s", theme, book))
     db.withSession { implicit session => {
       if (themesToBooks.filter(b => b.bookId === book.id && b.themeName === theme).list.size == 0) {
         themesToBooks += ThemeToBook(None, theme, book.id.get)
@@ -135,6 +134,7 @@ sealed case class SlickDAOImpl(dbURL : String) extends IDAO {
   }
 
   override def addThemeToThemeGroup(theme: String, themeGroup: String): Unit = {
+    logger.info(String.format("adding theme %s to themeGroup %s", theme, themeGroup))
     db.withSession { implicit session => {
       if (themesToThemeGroups.filter(r => r.themeName === theme && r.themeGroupName === themeGroup).list.size == 0) {
         themesToThemeGroups += ThemeToThemeGroup(None, theme, themeGroup)
@@ -147,7 +147,7 @@ sealed case class SlickDAOImpl(dbURL : String) extends IDAO {
       val query: lifted.Query[Books, Book, Seq] = for {
         ttb <- themesToBooks
         book <- books
-        if (ttb.themeName == theme && ttb.bookId == book.id)
+        if (ttb.themeName === theme && ttb.bookId === book.id)
       } yield book
       query.list
     }}
@@ -157,7 +157,7 @@ sealed case class SlickDAOImpl(dbURL : String) extends IDAO {
     db.withSession { implicit session => {
       val query: lifted.Query[lifted.Column[String], String, Seq] = for {
         tttg <- themesToThemeGroups
-        if (tttg.themeGroupName == themeGroup)
+        if (tttg.themeGroupName === themeGroup)
       } yield tttg.themeName
       query.list
     }}

@@ -93,7 +93,7 @@ class ThemesToThemeGroups(tag : Tag)
 
   def themeName      : Column[String] = column[String]("THEME_NAME", O.NotNull)
 
-  def themeGroupName : Column[String] = column[String]("THEME_NAME", O.NotNull)
+  def themeGroupName : Column[String] = column[String]("THEME_GROUP_NAME", O.NotNull)
 
   def * : ProvenShape[ThemeToThemeGroup] = (id?, themeName, themeGroupName) <> (ThemeToThemeGroup.tupled, ThemeToThemeGroup.unapply)
 

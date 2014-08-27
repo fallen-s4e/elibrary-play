@@ -72,5 +72,22 @@ class DaoSpec extends Specification {
       slickDAO.getBookById(firstBook.id.get) should not be None
       Some(firstPerson.id.get) === slickDAO.getBookById(firstBook.id.get).get.personId
     }
+    "add theme to a book and find book by theme" in {
+      val slickDAO: IDAO = fresh()
+      val firstBook: Book      = DummyRows.books.head
+      val firstTheme: String   = DummyRows.themes.head
+
+      slickDAO.insertBook(firstBook)
+      slickDAO.addThemeToBook(firstBook, firstTheme)
+      List(firstBook) === slickDAO.getBooksByTheme(firstTheme)
+    }
+    "add theme to themeGroup and find theme ByThemeGroup" in {
+      val slickDAO: IDAO = fresh()
+      val firstTheme: String      = DummyRows.themes.head
+      val firstThemeGroup: String = DummyRows.themeGroups.head
+
+      slickDAO.addThemeToThemeGroup(firstTheme, firstThemeGroup)
+      List(firstTheme) === slickDAO.getThemesByThemegroup(firstThemeGroup)
+    }
   }
 }

@@ -16,4 +16,21 @@ object DummyRows {
     new Book(Some(2), "bookName2", "author2", "description2", "barcode2", "bookType2", None),
     new Book(Some(3), "bookName3", "author3", "description3", "barcode3", "bookType3", None)
   )
+
+  // <indexes_separated_by_underscore_1>$<indexes_separated_by_underscore_2>
+  // indexes_separated_by_underscore_1 - corresponding ids of book which it belongs to
+  // indexes_separated_by_underscore_2 - corresponding ids of themeGroups which it belongs to
+  val themes = List(
+    "theme1$1",
+    "theme2$1",
+    "theme1_2$2",
+    "theme3$3"
+  )
+
+  val themeGroups = List(
+    "themeGroup1",
+    "themeGroup2",
+    "themeGroup3",
+    "themeGroup4"
+  )
 }
