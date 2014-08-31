@@ -1,9 +1,48 @@
-@(theme : String)
+@(theme : String, books : List[Book])
 
 @import helper._
 @import helper.twitterBootstrap._
 @import models.Messages;
 
+
+@import helper._
+@import helper.twitterBootstrap._
+
 @templates.main("Welcome to Play 2.1") {
-    bytheme!
+    <fieldset>
+        <legend>@{ Messages.tr("theme:") ++ Messages.tr(theme) }</legend>
+
+        <table style="text-align: center; border: 1px double black; width: 100%;">
+            <thead>
+                <tr>
+                    <td>@Messages.tr("author")</td>
+                    <td>@Messages.tr("bookName")</td>
+                    <td>@Messages.tr("bookType")</td>
+                    <td>@Messages.tr("description")</td>
+                    <td>@Messages.tr("available")</td>
+                    <td>@Messages.tr("actions")</td>
+                </tr>
+            </thead>
+            <tbody>
+                @for(book <- books) {
+                    <tr>
+                        <td>@book.author</td>
+                        <td>@book.bookName</td>
+                        <td>@book.bookType</td>
+                        <td>@book.description</td>
+                        <td>@(Messages.tr(if (book.personId == None) "yes" else "no"))</td>
+                        <td>
+                            @if(book.personId == None) {
+                                @helper.form(action = routes.Library.takeBook(book.id.get)) {
+                                    <button type="submit" class="btn primary">@Messages.tr("actions.select")</button>
+                                    @{ /* have no idea why it should be here but it should */ }
+                                    <input type="hidden" name="bookId" value="@book.id.get" >
+                                }
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </fieldset>
 }

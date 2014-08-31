@@ -20,6 +20,17 @@ object Messages {
     , "bookInfo"                  -> "Информация о книге"
     , "bookReturned:"             -> "Книга была возвращена, ее номер: "
 
+    , "theme:"                    -> "Тема: "
+    , "author"                    -> "Автор:"
+    , "bookName"                  -> "Название:"
+    , "bookType"                  -> "Тип:"
+    , "description"               -> "Описание:"
+    , "available"                 -> "Доступна:"
+    , "actions"                   -> "Действия:"
+
+    , "yes"                       -> "да"
+    , "no"                        -> "нет"
+
     // actions
     , "actions.take"               -> "Взять книгу"
     , "actions.putback"            -> "Вернуть книгу на место"
@@ -27,6 +38,7 @@ object Messages {
     , "actions.administration"     -> "Администрирование"
     , "actions.take"               -> "Взять книгу"
     , "actions.home"               -> "Домой"
+    , "actions.select"             -> "Выбрать"
 
     // errors
     , "errors.personMustExist"     -> "Нет такого пользователя"

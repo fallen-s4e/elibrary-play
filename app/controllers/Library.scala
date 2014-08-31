@@ -1,6 +1,6 @@
 package controllers
 
-import models.SlickDAO
+import models.{DummyRows, SlickDAO}
 import play.api.mvc._
 
 object Library extends Controller {
@@ -14,7 +14,11 @@ object Library extends Controller {
   }
 
   def byTheme(theme : String) = Action {
-    Ok(views.html.library.bytheme(theme))
+    Ok(views.html.library.bytheme(theme, SlickDAO.getBooksByTheme(theme)))
+  }
+
+  def takeBook(bookId : Int) = Action {
+    Ok("lib : take book")
   }
 
   //---------------- unused
