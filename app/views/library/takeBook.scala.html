@@ -1,0 +1,32 @@
+@(bookId : Int)(formPerson : Form[Person])
+
+@import helper._
+@import helper.twitterBootstrap._
+@import models.Messages;
+
+
+@import helper._
+@import helper.twitterBootstrap._
+
+@templates.main("Welcome to Play 2.1") {
+    @helper.form(action = routes.Library.submit(bookId)) {
+        <fieldset>
+            <legend>Book info</legend>
+
+            @inputText(
+                formPerson("personFIO"),
+                '_label -> Messages.tr("personFIO"),
+                '_help -> Messages.tr("enterPersonFIO"),
+                '_error -> formPerson.globalError
+            )
+
+            <input type="hidden" name="bookId" value="@bookId" >
+
+            <a href="@routes.Application.index()">
+                <input type="button" class="btn primary" value="@Messages.tr("actions.home")">
+            </a>
+
+            <input type="submit" class="btn primary" value="@Messages.tr("next")">
+        </fieldset>
+    }
+}

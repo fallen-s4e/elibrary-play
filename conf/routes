@@ -30,6 +30,7 @@ GET     /library                    controllers.Library.index
 GET     /library/by-theme-group     controllers.Library.byThemeGroup(themeGroup : String)
 GET     /library/by-theme           controllers.Library.byTheme(theme : String)
 GET     /library/take-book          controllers.Library.takeBook(bookId : Int)
+GET     /library/submit             controllers.Library.submit(bookId : Int)
 
 # library
 GET     /administration             controllers.Application.administration

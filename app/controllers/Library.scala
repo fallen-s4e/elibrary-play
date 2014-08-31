@@ -1,6 +1,6 @@
 package controllers
 
-import models.{DummyRows, SlickDAO}
+import models.SlickDAO
 import play.api.mvc._
 
 object Library extends Controller {
@@ -18,18 +18,17 @@ object Library extends Controller {
   }
 
   def takeBook(bookId : Int) = Action {
-    Ok("lib : take book")
+    Ok(views.html.library.takeBook(bookId)(Forms.personForm.discardingErrors))
   }
 
-  //---------------- unused
-  def submit = Action { implicit request =>
-    Forms.bookForm.bindFromRequest.fold(
+  def submit(bookId : Int) = Action { implicit request =>
+    Forms.personForm.bindFromRequest.fold(
       errors => {
-        Ok(views.html.putback.index(errors))
+        Ok(views.html.library.takeBook(bookId)(errors))
       },
-      book => {
-        SlickDAO.putBookBack(book)
-        Redirect(routes.Putback.finish(book.id.get))
+      person => {
+        SlickDAO.addBookToPerson(person, SlickDAO.getBookById(bookId).get)
+        Redirect(routes.Take.finish(person.id.get))
       }
     )
   }
