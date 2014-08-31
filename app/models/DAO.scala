@@ -116,10 +116,15 @@ sealed case class SlickDAOImpl(dbURL : String) extends IDAO {
   override def addThemeToThemeGroup(theme: String, themeGroup: String): Unit = {
     logger.info(String.format("adding theme %s to themeGroup %s", theme, themeGroup))
     db.withSession { implicit session => {
-      if (themesToThemeGroups.filter(r => r.themeName === theme && r.themeGroupName === themeGroup).list.size == 0) {
-        themesToThemeGroups += ThemeToThemeGroup(None, theme, themeGroup)
-      }
+      addThemeToThemeGroup_TransMandatory(session, theme, themeGroup)
     }}
+  }
+
+  protected def addThemeToThemeGroup_TransMandatory(implicit session: H2Driver.backend.Session,
+                                                    theme: String, themeGroup: String): Unit = {
+    if (themesToThemeGroups.filter(r => r.themeName === theme && r.themeGroupName === themeGroup).list.size == 0) {
+      themesToThemeGroups += ThemeToThemeGroup(None, theme, themeGroup)
+    }
   }
 
   override def getBooksByTheme(theme: String): List[Book] = {
@@ -175,10 +180,13 @@ class SlickFilledMemoryDAO extends SlickMemoryDAO {
   def initThemes() = {
     DummyRows.themeGrpToThemes.foreach((entry) => entry match {
       case (themeGrp: String, themes: List[String]) => {
-        themes.map((theme) => addThemeToThemeGroup(theme, themeGrp))
+        db.withSession { implicit session => {
+          themes.map((theme) => addThemeToThemeGroup_TransMandatory(session, theme, themeGrp))
+        }}
       }
     })
   }
+
   scala.util.control.Exception.ignoring(classOf[Exception]) {
     DummyRows.persons.foreach(insertPerson(_))
   }
