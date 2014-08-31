@@ -10,7 +10,11 @@ object Library extends Controller {
   }
 
   def byThemeGroup(themeGroup : String) = Action {
-    Ok(views.html.library.themegroup(themeGroup))
+    Ok(views.html.library.bythemegroup(SlickDAO.getThemesByThemegroup(themeGroup)))
+  }
+
+  def byTheme(theme : String) = Action {
+    Ok(views.html.library.bytheme(theme))
   }
 
   //---------------- unused
