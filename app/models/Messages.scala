@@ -15,6 +15,7 @@ object Messages {
     , "enterPersonFIO"            -> "Введите имя пользователя"
     , "bookID"                    -> "Номер книги"
     , "enterBookID"               -> "Введите номер книги"
+    , "bookIsBound"               -> "Книга зарегистрирована на вас"
 
     // actions
     , "actions.take"               -> "Взять книгу"

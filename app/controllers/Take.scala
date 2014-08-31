@@ -1,49 +1,19 @@
 package controllers
 
-import models.{Book, Messages, Person, SlickDAO}
-import play.api.data.Forms._
-import play.api.data._
+import models.SlickDAO
 import play.api.mvc._
 
 
 
 object Take extends Controller {
 
-  val take1Form: Form[Person] = Form(
-    // Define a mapping that will handle Person values
-    mapping(
-      "personFIO" -> nonEmptyText.verifying(
-        // Add an additional constraint: person must exist
-        Messages.tr("erorrs.personMustExist"), personFIO => {
-          SlickDAO.getPersonByFullName(personFIO).isDefined
-        }
-      )
-    )
-      (SlickDAO.getPersonByFullName(_).get)
-      ((p: Person) => Some(p.toFullName()))
-  )
-
-  val take2Form: Form[Book] = Form(
-    // Define a mapping that will handle Person values
-    mapping(
-      "bookId" -> number.verifying(
-        // Add an additional constraint: book must exist
-        Messages.tr("erorrs.bookMustExist"), bookId => {
-          SlickDAO.getBookById(bookId).isDefined
-        }
-      )
-    )
-      (SlickDAO.getBookById(_).get)
-      ((b: Book) => b.id)
-  )
-
   // step1: form where user choose his/her name
   def take = Action {
-    Ok(views.html.take.step1(take1Form.discardingErrors))
+    Ok(views.html.take.step1(Forms.personForm.discardingErrors))
   }
 
   def step1 = Action { implicit request =>
-    take1Form.bindFromRequest.fold(
+    Forms.personForm.bindFromRequest.fold(
       // Form has errors, redisplay it
       errors => Ok(views.html.take.step1(errors)),
 
@@ -57,7 +27,7 @@ object Take extends Controller {
     SlickDAO.getPersonById(personId) match {
       case None => Redirect(routes.Take.take())
       case Some(person) => {
-        Ok(views.html.take.step2(person)(take2Form.discardingErrors))
+        Ok(views.html.take.step2(person)(Forms.bookForm.discardingErrors))
       }
     }
   }
@@ -67,7 +37,7 @@ object Take extends Controller {
     SlickDAO.getPersonById(personId) match {
       case None => Redirect(routes.Take.take())
       case Some(person) => {
-        take2Form.bindFromRequest.fold(
+        Forms.bookForm.bindFromRequest.fold(
           errors => {
             Ok(views.html.take.step2(person)(errors))
           },
