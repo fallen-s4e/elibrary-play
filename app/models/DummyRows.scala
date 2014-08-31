@@ -18,7 +18,7 @@ object DummyRows {
   )
 
   private val compentencesThemes = List(
-    "themes.resultOriented"
+      "themes.resultOriented"
     , "themes.leadership"
     , "themes.communicationAndInfluence"
     , "themes.coworking"
@@ -30,9 +30,10 @@ object DummyRows {
   )
 
   private val professionalKnowledgeThemes = List(
-    "themes.HRDepartment"
+      "themes.HRDepartment"
     , "themes.ITDepartment"
     , "themes.logicticsAndPurchasingDepartment"
+    , "themes.financialDepartment"
     , "themes.legalDepartment"
     , "themes.stampsDepartment"
     , "themes.productionDepartment"
@@ -50,12 +51,13 @@ object DummyRows {
     , "themes.skill3"
   )
 
-  val themes = compentencesThemes ++ professionalKnowledgeThemes ++ foreignLanguages ++ computerSkills
-
-  val themeGroups = List(
-      "themegrps.competences"
-    , "themegrps.professionalKnowledge"
-    , "themegrps.foreignLanguages"
-    , "themegrps.computerSkills"
+  val themeGrpToThemes = Map(
+      "themegrps.competences"              -> compentencesThemes
+    , "themegrps.professionalKnowledge"    -> professionalKnowledgeThemes
+    , "themegrps.foreignLanguages"         -> foreignLanguages
+    , "themegrps.computerSkills"           -> computerSkills
   )
+
+  val themes      = themeGrpToThemes.values.flatMap(x => x)
+  val themeGroups = themeGrpToThemes.keys
 }

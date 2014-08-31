@@ -42,12 +42,21 @@ class SlickFileDAO
 
 /** this class is for visual testing */
 class SlickFilledMemoryDAO extends SlickMemoryDAO {
-  def init() = {
+  def initThemes() = {
+    DummyRows.themeGrpToThemes.foreach((entry) => entry match {
+      case (themeGrp: String, themes: List[String]) => {
+        themes.map((theme) => addThemeToThemeGroup(theme, themeGrp))
+      }
+    })
+  }
+  scala.util.control.Exception.ignoring(classOf[Exception]) {
     DummyRows.persons.foreach(insertPerson(_))
+  }
+  scala.util.control.Exception.ignoring(classOf[Exception]) {
     DummyRows.books.foreach(insertBook(_))
   }
   scala.util.control.Exception.ignoring(classOf[Exception]) {
-    init()
+    initThemes()
   }
 }
 
