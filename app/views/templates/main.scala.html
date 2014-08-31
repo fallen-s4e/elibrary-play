@@ -1,5 +1,9 @@
 @(title: String)(content: Html)
 
+
+@import models.Messages;
+
+
 <!DOCTYPE html>
 
 <html>
@@ -13,7 +17,7 @@
     <body>
         <div align="center">
             <div style="width: 100%; background: #DDDDFF">
-                @models.Messages.libraryTitle
+                @Messages.tr("libraryTitle")
             </div>
             <br />
             @content
