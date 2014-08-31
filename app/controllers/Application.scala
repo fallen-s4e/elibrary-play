@@ -8,10 +8,6 @@ object Application extends Controller {
     Ok(views.html.index())
   }
 
-  def library = Action {
-    Ok(views.html.library())
-  }
-
   def administration = Action {
     Ok(views.html.administration())
   }

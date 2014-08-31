@@ -1,0 +1,23 @@
+@(themeGroups : List[String])
+
+@import helper._
+@import helper.twitterBootstrap._
+@import models.Messages;
+
+@templates.main("Welcome to Play 2.1") {
+
+    <fieldset>
+        <legend>@Messages.tr("bookInfo")</legend>
+
+        @for(themeGroup <- themeGroups) {
+            @helper.form(action = routes.Library.byThemeGroup(themeGroup)) {
+                <button type="submit" class="btn primary">@Messages.tr(themeGroup)</button>
+                @{ /* have no idea why it should be here but it should */ }
+                <input type="hidden" name="themeGroup" value="@themeGroup" >
+            }
+        }
+        <a href="@routes.Application.index()">
+            <input type="button" class="btn primary" value="@Messages.tr("actions.home")">
+        </a>
+    </fieldset>
+}

@@ -26,7 +26,8 @@ POST    /putback                    controllers.Putback.submit
 GET     /putback-finish             controllers.Putback.finish(bookId : Int)
 
 # library
-GET     /library                    controllers.Application.library
+GET     /library                    controllers.Library.index
+GET     /library/by-theme-group     controllers.Library.byThemeGroup(themeGroup : String)
 
 # library
 GET     /administration             controllers.Application.administration
