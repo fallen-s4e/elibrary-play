@@ -1,9 +1,11 @@
 @(person : Person)
 
+@import models.Messages;
+
 @templates.main("Welcome to Play 2.1") {
     Book is bound, @person.toFullName()
     <br />
     <a href="@routes.Application.index()">
-        <input type="button" class="btn primary" value="@models.Messages.prev">
+        <input type="button" class="btn primary" value="@Messages.tr("prev")">
     </a>
 }

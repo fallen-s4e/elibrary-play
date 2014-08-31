@@ -14,7 +14,7 @@ object Take extends Controller {
     mapping(
       "personFIO" -> nonEmptyText.verifying(
         // Add an additional constraint: person must exist
-        Messages.Erorrs.personMustExist, personFIO => {
+        Messages.tr("erorrs.personMustExist"), personFIO => {
           SlickDAO.getPersonByFullName(personFIO).isDefined
         }
       )
@@ -28,7 +28,7 @@ object Take extends Controller {
     mapping(
       "bookId" -> number.verifying(
         // Add an additional constraint: book must exist
-        Messages.Erorrs.bookMustExist, bookId => {
+        Messages.tr("erorrs.bookMustExist"), bookId => {
           SlickDAO.getBookById(bookId).isDefined
         }
       )

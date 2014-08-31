@@ -5,26 +5,27 @@ package models
  * @since 8/23/14 7:41 PM
  */
 object Messages {
-  def libraryTitle = "Электронная библятека"
-  def selectAction = "Выберите действие:"
-  def next = "Далее"
-  def prev = "Назад"
+  val ru = Map(
+     // simple strings
+      "libraryTitle"              -> "Электронная библятека"
+    , "selectAction"              -> "Выберите действие"
+    , "next"                      -> "Далее"
+    , "prev"                      -> "Назад"
+    , "personFIO"                 -> "Имя пользователя"
+    , "enterPersonFIO"            -> "Введите имя пользователя"
+    , "bookID"                    -> "Номер книги"
+    , "enterBookID"               -> "Введите номер книги"
 
-  def personFIO = "Имя пользователя"
-  def enterPersonFIO = "Введите имя пользователя"
+    // actions
+    , "actions.take"               -> "Взять книгу"
+    , "actions.putback"            -> "Вернуть книгу на место"
+    , "actions.library"            -> "Библиотека"
+    , "actions.administration"     -> "Администрирование"
+    , "actions.take"               -> "Взять книгу"
 
-  def bookID = "Номер книги"
-  def enterBookId = "Введите номер книги"
-
-  object Actions {
-    def take           = "Взять книгу"
-    def putback        = "Вернуть книгу на место"
-    def library        = "Библиотека"
-    def administration = "Администрирование"
-  }
-
-  object Erorrs {
-    def personMustExist = "Нет такого пользователя"
-    def bookMustExist = "Нет такой книги"
-  }
+    // errors
+    , "errors.personMustExist"     -> "Нет такого пользователя"
+    , "errors.bookMustExist"       -> "Нет такой книги"
+  )
+  def tr(key : String) = ru.get(key).getOrElse(key)
 }

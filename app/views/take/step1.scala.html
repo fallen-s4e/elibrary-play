@@ -2,6 +2,7 @@
 
 @import helper._
 @import helper.twitterBootstrap._
+@import models.Messages;
 
 @templates.main("Welcome to Play 2.1") {
     @helper.form(action = routes.Take.step1()) {
@@ -10,14 +11,14 @@
 
             @inputText(
                 formPerson("personFIO"),
-                '_label -> models.Messages.personFIO,
-                '_help -> models.Messages.enterPersonFIO,
+                '_label -> Messages.tr("personFIO"),
+                '_help -> Messages.tr("enterPersonFIO"),
                 '_error -> formPerson.globalError
             )
             <a href="@routes.Application.index()">
-                <input type="button" class="btn primary" value="@models.Messages.prev">
+                <input type="button" class="btn primary" value="@Messages.tr("prev")">
             </a>
-            <input type="submit" class="btn primary" value="@models.Messages.next">
+            <input type="submit" class="btn primary" value="@Messages.tr("next")">
         </fieldset>
     }
 }
