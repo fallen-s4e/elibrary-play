@@ -25,39 +25,9 @@ trait IDAO {
   def addThemeToBook(book : Book, theme : String) : Unit
   def addThemeToThemeGroup(theme : String, themeGroup : String) : Unit
 
+  def getAllThemeGroups() : List[String]
   def getBooksByTheme(theme : String) : List[Book]
   def getThemesByThemegroup(themeGroup : String) : List[String]
-}
-
-/** this class is for DAO unit tests */
-class SlickMemoryDAO
-  extends SlickDAOImpl("jdbc:h2:~/.h2-databases/elibrary/elibrary")
-
-/** this class is for production mode */
-class SlickFileDAO
-  extends SlickDAOImpl("jdbc:h2:~/.h2-databases/elibrary/elibrary")
-
-/** and this class is gonna be exported */
-//object SlickDAO extends SlickFilledMemoryDAO
-
-/** this class is for visual testing */
-class SlickFilledMemoryDAO extends SlickMemoryDAO {
-  def initThemes() = {
-    DummyRows.themeGrpToThemes.foreach((entry) => entry match {
-      case (themeGrp: String, themes: List[String]) => {
-        themes.map((theme) => addThemeToThemeGroup(theme, themeGrp))
-      }
-    })
-  }
-  scala.util.control.Exception.ignoring(classOf[Exception]) {
-    DummyRows.persons.foreach(insertPerson(_))
-  }
-  scala.util.control.Exception.ignoring(classOf[Exception]) {
-    DummyRows.books.foreach(insertBook(_))
-  }
-  scala.util.control.Exception.ignoring(classOf[Exception]) {
-    initThemes()
-  }
 }
 
 sealed case class SlickDAOImpl(dbURL : String) extends IDAO {
@@ -180,6 +150,42 @@ sealed case class SlickDAOImpl(dbURL : String) extends IDAO {
         .update(None)
     }}
   }
+  override def getAllThemeGroups() : List[String] = {
+    db.withSession { implicit session => {
+      themesToThemeGroups.groupBy(_.themeGroupName).map(_._1).list
+    }}
+  }
 }
 
 //-----------------------------------------------
+
+/** this class is for DAO unit tests */
+class SlickMemoryDAO
+  extends SlickDAOImpl("jdbc:h2:~/.h2-databases/elibrary/elibrary")
+
+/** this class is for production mode */
+class SlickFileDAO
+  extends SlickDAOImpl("jdbc:h2:~/.h2-databases/elibrary/elibrary")
+
+/** and this class is gonna be exported */
+//object SlickDAO extends SlickFilledMemoryDAO
+
+/** this class is for visual testing */
+class SlickFilledMemoryDAO extends SlickMemoryDAO {
+  def initThemes() = {
+    DummyRows.themeGrpToThemes.foreach((entry) => entry match {
+      case (themeGrp: String, themes: List[String]) => {
+        themes.map((theme) => addThemeToThemeGroup(theme, themeGrp))
+      }
+    })
+  }
+  scala.util.control.Exception.ignoring(classOf[Exception]) {
+    DummyRows.persons.foreach(insertPerson(_))
+  }
+  scala.util.control.Exception.ignoring(classOf[Exception]) {
+    DummyRows.books.foreach(insertBook(_))
+  }
+  scala.util.control.Exception.ignoring(classOf[Exception]) {
+    initThemes()
+  }
+}
