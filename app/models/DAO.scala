@@ -20,6 +20,7 @@ trait IDAO {
   def getBookById(bookId : Int) : Option[Book]
 
   def addBookToPerson(person : Person, book : Book) : Unit
+  def putBookBack(book : Book) : Unit
 
   def addThemeToBook(book : Book, theme : String) : Unit
   def addThemeToThemeGroup(theme : String, themeGroup : String) : Unit
@@ -160,6 +161,14 @@ sealed case class SlickDAOImpl(dbURL : String) extends IDAO {
         if (tttg.themeGroupName === themeGroup)
       } yield tttg.themeName
       query.list
+    }}
+  }
+
+  override def putBookBack(book: Book): Unit = {
+    db.withSession { implicit session => {
+      books.filter(_.id === book.id)
+        .map(b => b.personId)
+        .update(None)
     }}
   }
 }
