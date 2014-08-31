@@ -8,10 +8,6 @@ object Application extends Controller {
     Ok(views.html.index())
   }
 
-  def putback = Action {
-    Ok(views.html.putback())
-  }
-
   def library = Action {
     Ok(views.html.library())
   }

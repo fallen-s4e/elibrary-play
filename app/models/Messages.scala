@@ -13,9 +13,12 @@ object Messages {
     , "prev"                      -> "Назад"
     , "personFIO"                 -> "Имя пользователя"
     , "enterPersonFIO"            -> "Введите имя пользователя"
+    , "enterBookId"               -> "Введите номер книги"
     , "bookID"                    -> "Номер книги"
     , "enterBookID"               -> "Введите номер книги"
     , "bookIsBound"               -> "Книга зарегистрирована на вас"
+    , "bookInfo"                  -> "Информация о книге"
+    , "bookReturned:"             -> "Книга была возвращена, ее номер: "
 
     // actions
     , "actions.take"               -> "Взять книгу"
@@ -23,6 +26,7 @@ object Messages {
     , "actions.library"            -> "Библиотека"
     , "actions.administration"     -> "Администрирование"
     , "actions.take"               -> "Взять книгу"
+    , "actions.home"               -> "Домой"
 
     // errors
     , "errors.personMustExist"     -> "Нет такого пользователя"
@@ -62,5 +66,5 @@ object Messages {
     , "themegrps.computerSkills"                   -> "Компьютерные навыки"
 
   )
-  def tr(key : String) = ru.get(key).getOrElse(key)
+  def tr(key : String) = ru.get(key).getOrElse("%%%" + key + "%%%")
 }

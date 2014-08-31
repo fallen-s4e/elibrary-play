@@ -19,7 +19,11 @@ GET     /take/step3                 controllers.Take.step3(personId : Int)
 GET     /take/finish                controllers.Take.finish(personId : Int)
 
 # return a book
-GET     /putback                    controllers.Application.putback
+GET     /putback                    controllers.Putback.index
+
+POST    /putback                    controllers.Putback.submit
+
+GET     /putback-finish             controllers.Putback.finish(bookId : Int)
 
 # library
 GET     /library                    controllers.Application.library
