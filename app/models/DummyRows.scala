@@ -17,20 +17,45 @@ object DummyRows {
     new Book(Some(3), "bookName3", "author3", "description3", "barcode3", "bookType3", None)
   )
 
-  // <indexes_separated_by_underscore_1>$<indexes_separated_by_underscore_2>
-  // indexes_separated_by_underscore_1 - corresponding ids of book which it belongs to
-  // indexes_separated_by_underscore_2 - corresponding ids of themeGroups which it belongs to
-  val themes = List(
-    "theme1$1",
-    "theme2$1",
-    "theme1_2$2",
-    "theme3$3"
+  private val compentencesThemes = List(
+    "themes.resultOriented"
+    , "themes.leadership"
+    , "themes.communicationAndInfluence"
+    , "themes.coworking"
+    , "themes.selfEducation"
+    , "themes.planningAndOrganization"
+    , "themes.developmentOfSubordinates"
+    , "themes.problemAnalysisAndSolutionFinding"
+    , "themes.innovativeness"
   )
 
+  private val professionalKnowledgeThemes = List(
+    "themes.HRDepartment"
+    , "themes.ITDepartment"
+    , "themes.logicticsAndPurchasingDepartment"
+    , "themes.legalDepartment"
+    , "themes.stampsDepartment"
+    , "themes.productionDepartment"
+    , "themes.salesDepartment"
+  )
+
+  private val foreignLanguages = List(
+      "themes.englishLanguage"
+    , "themes.finnishLanguage"
+  )
+
+  private val computerSkills = List(
+      "themes.skill1"
+    , "themes.skill2"
+    , "themes.skill3"
+  )
+
+  val themes = compentencesThemes ++ professionalKnowledgeThemes ++ foreignLanguages ++ computerSkills
+
   val themeGroups = List(
-    "themeGroup1",
-    "themeGroup2",
-    "themeGroup3",
-    "themeGroup4"
+      "themegrps.competences"
+    , "themegrps.professionalKnowledge"
+    , "themegrps.foreignLanguages"
+    , "themegrps.computerSkills"
   )
 }
