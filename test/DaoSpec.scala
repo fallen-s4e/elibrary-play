@@ -58,11 +58,12 @@ class DaoSpec extends Specification {
       val person: Option[Person] = slickDAO.getPersonByFullName("NoSuchPerson")
       person === None
     }
-    "insert and find this inserted book" in {
+    "insert and find this inserted book by id and barcode" in {
       val slickDAO: IDAO = fresh()
       val firstBook: Book = DummyRows.books.head
       slickDAO.insertBook(firstBook)
       Some(firstBook) === slickDAO.getBookById(firstBook.id.get)
+      Some(firstBook) === slickDAO.getBookByBarCode(firstBook.barCode)
     }
     "add a book to a person" in {
       val slickDAO: IDAO = fresh()

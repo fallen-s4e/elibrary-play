@@ -18,6 +18,7 @@ trait IDAO {
 
   def insertBook(book : Book) : Unit
   def getBookById(bookId : Int) : Option[Book]
+  def getBookByBarCode(barCode: String): Option[Book]
 
   def addBookToPerson(person : Person, book : Book) : Unit
   def putBookBack(book : Book) : Unit
@@ -92,7 +93,13 @@ sealed case class SlickDAOImpl(dbURL : String) extends IDAO {
   override def getBookById(bookId: Int): Option[Book] = {
     db.withSession { implicit session => {
       val query: lifted.Query[Books, Book, Seq] = for { b <- books if b.id === bookId } yield b
-      query.list.headOption 
+      query.list.headOption
+    }}
+  }
+
+  override def getBookByBarCode(barCode: String): Option[Book] = {
+    db.withSession { implicit session => {
+      books.filter(_.barCode === barCode).list.headOption
     }}
   }
 
