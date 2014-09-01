@@ -24,6 +24,7 @@ trait IDAO {
   def addBookToPerson(person : Person, book : Book) : Unit
   def putBookBack(book : Book) : Unit
 
+  def getAllThemes() : List[String]
   def addThemeToBook(book : Book, theme : String) : Unit
   def addThemeToThemeGroup(theme : String, themeGroup : String) : Unit
 
@@ -175,6 +176,12 @@ sealed case class SlickDAOImpl(dbURL : String) extends IDAO {
         getOrElse(throw new IllegalArgumentException("no book with such barcode")).id.get
       themesToBooks.filter(_.bookId === bookId).delete
       books.filter(_.id === bookId).delete
+    }}
+  }
+
+  override def getAllThemes() : List[String] = {
+    db.withSession { implicit session => {
+      themesToBooks.groupBy(_.themeName).map(_._1).list
     }}
   }
 }
