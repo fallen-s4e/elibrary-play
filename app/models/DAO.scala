@@ -19,6 +19,7 @@ trait IDAO {
   def insertBook(book : Book) : Int
   def getBookById(bookId : Int) : Option[Book]
   def getBookByBarCode(barCode: String): Option[Book]
+  def deleteBookByBarcode(barCode: String): Unit
 
   def addBookToPerson(person : Person, book : Book) : Unit
   def putBookBack(book : Book) : Unit
@@ -165,6 +166,15 @@ sealed case class SlickDAOImpl(dbURL : String) extends IDAO {
   override def getAllThemeGroups() : List[String] = {
     db.withSession { implicit session => {
       themesToThemeGroups.groupBy(_.themeGroupName).map(_._1).list
+    }}
+  }
+
+  override def deleteBookByBarcode(barCode: String): Unit = {
+    db.withSession { implicit session => {
+      val bookId = books.filter(_.barCode === barCode).list.headOption.
+        getOrElse(throw new IllegalArgumentException("no book with such barcode")).id.get
+      themesToBooks.filter(_.bookId === bookId).delete
+      books.filter(_.id === bookId).delete
     }}
   }
 }

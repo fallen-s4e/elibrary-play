@@ -119,5 +119,19 @@ class DaoSpec extends Specification {
       slickDAO.addThemeToThemeGroup(firstTheme, secondThemeGroup)
       slickDAO.getAllThemeGroups().size === 2
     }
+    "insert book and delete it by barCode" in {
+      val slickDAO: IDAO = fresh()
+      val firstBook: Book = DummyRows.books.head
+      val theme: String = DummyRows.themes.head
+
+      slickDAO.insertBook(firstBook)
+      slickDAO.addThemeToBook(firstBook, theme)
+      Some(firstBook) === slickDAO.getBookByBarCode(firstBook.barCode)
+      List(firstBook) === slickDAO.getBooksByTheme(theme)
+
+      slickDAO.deleteBookByBarcode(firstBook.barCode)
+      None   === slickDAO.getBookByBarCode(firstBook.barCode)
+      List() === slickDAO.getBooksByTheme(theme)
+    }
   }
 }

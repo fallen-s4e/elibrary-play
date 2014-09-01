@@ -45,7 +45,7 @@ object Administration extends Controller {
         Ok(views.html.administration.deleteBook(errors))
       },
       book => {
-//        SlickDAO.deleteBook(book)
+        SlickDAO.deleteBookByBarcode(book.barCode)
         Redirect(routes.Administration.deleteBookFinish(book.barCode))
       })
   }}
