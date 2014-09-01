@@ -1,0 +1,48 @@
+@(formBook : Form[Book])
+
+@import helper._
+@import helper.twitterBootstrap._
+@import models.Messages;
+
+@templates.main("Welcome to Play 2.1") {
+    @helper.form(action = routes.Administration.submitAddBook()) {
+        <fieldset>
+            <legend>Account informations</legend>
+
+            @inputText(
+                formBook("author"),
+                '_label -> Messages.tr("input.author"),
+                '_help -> Messages.tr("input.author.prompt"),
+                '_error -> formBook.globalError
+            )
+            @inputText(
+                formBook("bookName"),
+                '_label -> Messages.tr("input.bookName"),
+                '_help -> Messages.tr("input.bookName.prompt"),
+                '_error -> formBook.globalError
+            )
+            @inputText(
+                formBook("description"),
+                '_label -> Messages.tr("input.description"),
+                '_help -> Messages.tr("input.description.prompt"),
+                '_error -> formBook.globalError
+            )
+            @inputText(
+                formBook("barCode"),
+                '_label -> Messages.tr("input.barCode"),
+                '_help -> Messages.tr("input.barCode.prompt"),
+                '_error -> formBook.globalError
+            )
+            @inputText(
+                formBook("bookType"),
+                '_label -> Messages.tr("input.bookType"),
+                '_help -> Messages.tr("input.bookType.prompt"),
+                '_error -> formBook.globalError
+            )
+            <a href="@routes.Application.index()">
+                <input type="button" class="btn primary" value="@Messages.tr("actions.home")">
+            </a>
+            <input type="submit" class="btn primary" value="@Messages.tr("next")">
+        </fieldset>
+    }
+}

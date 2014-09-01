@@ -29,7 +29,10 @@ GET     /library/take-book          controllers.Library.takeBook(bookId : Int)
 GET     /library/submit             controllers.Library.submit(bookId : Int)
 
 # library
-GET     /administration             controllers.Administration.index
+GET     /administration                    controllers.Administration.index
+GET     /administration/add-book           controllers.Administration.addBook
+GET     /administration/submit-add-book    controllers.Administration.submitAddBook
+GET     /administration/add-book-finish    controllers.Administration.addBookFinish(bookBarCode : String)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /public/*file               controllers.Assets.at(path="/public", file)

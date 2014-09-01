@@ -20,6 +20,8 @@ object Messages {
     , "bookInfo"                  -> "Информация о книге"
     , "bookReturned:"             -> "Книга была возвращена, ее номер: "
 
+    , "info.bookWithBarcdIsAdded" -> "Книга со штрих кодом %s добавлена!"
+
     , "theme:"                    -> "Тема: "
     , "author"                    -> "Автор:"
     , "bookName"                  -> "Название:"
@@ -43,9 +45,25 @@ object Messages {
     , "actions.deleteBook"         -> "Удалить книгу"
     , "actions.reports"            -> "Отчеты"
 
+    , "input.author"               -> "Автор"
+    , "input.author.prompt"        -> "Введите автора"
+
+    , "input.bookName"             -> "Название книги"
+    , "input.bookName.prompt"      -> "Введите название книги"
+
+    , "input.description"          -> "Описание"
+    , "input.description.prompt"   -> "Введите описание"
+
+    , "input.barCode"              -> "Штрих-код"
+    , "input.barCode.prompt"       -> "Введите штрих-код"
+
+    , "input.bookType"             -> "Тип книги"
+    , "input.bookType.prompt"      -> "Введите тип книги"
+
     // errors
     , "errors.personMustExist"     -> "Нет такого пользователя"
     , "errors.bookMustExist"       -> "Нет такой книги"
+    , "errors.barCodeIsDuplicated" -> "Такой штрих-код уже существует"
 
     // themes
     , "themes.resultOriented"                      -> "Ориентация на результат"

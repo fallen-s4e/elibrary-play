@@ -16,7 +16,7 @@ trait IDAO {
   def getPersonById(id : Int) : Option[Person]
   def insertPerson(person : Person) : Unit
 
-  def insertBook(book : Book) : Unit
+  def insertBook(book : Book) : Int
   def getBookById(bookId : Int) : Option[Book]
   def getBookByBarCode(barCode: String): Option[Book]
 
@@ -84,9 +84,9 @@ sealed case class SlickDAOImpl(dbURL : String) extends IDAO {
     }
   }
 
-  override def insertBook(book: Book): Unit = {
+  override def insertBook(book: Book): Int = {
     db.withSession { implicit session => {
-        books += book
+      (books returning books.map(_.id)) += book
     }}
   }
 
