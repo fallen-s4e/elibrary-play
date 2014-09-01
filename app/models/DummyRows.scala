@@ -58,6 +58,9 @@ object DummyRows {
     , "themegrps.computerSkills"           -> computerSkills
   )
 
-  val themes      = themeGrpToThemes.values.flatMap(x => x)
-  val themeGroups = themeGrpToThemes.keys
+  val themes : List[Theme] = themeGrpToThemes.values
+    .flatMap(x => x).zipWithIndex
+    .map(x => Theme(Some(x._2 + 1), x._1))
+    .toList
+  val themeGroups          = themeGrpToThemes.keys
 }

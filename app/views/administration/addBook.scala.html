@@ -1,4 +1,4 @@
-@(themes : List[String])(formBook : Form[Book])
+@(themes : List[Theme])(formBook : Form[Book])
 
 @import helper._
 @import helper.twitterBootstrap._
@@ -35,7 +35,7 @@
             )
             @select(
                 formBook("bookType"),
-                themes.map(theme => theme -> Messages.tr(theme))
+                themes.map(theme => theme.themeName -> Messages.tr(theme.themeName))
             )
             @inputText(
                 formBook("bookType"),

@@ -60,9 +60,22 @@ class Books(tag : Tag)
 }
 
 //-----------------------------------------------------------------------------------------------------------
+case class Theme(id        : Option[Int],
+                 themeName : String)
+
+class Themes(tag : Tag)
+  extends Table[Theme](tag, "THEMES") {
+
+  def id: Column[Int] = column[Int]("ID", O.PrimaryKey, O.AutoInc)
+
+  def themeName: Column[String] = column[String]("THEME_NAME", O.NotNull)
+
+  def * : ProvenShape[Theme] = (id?, themeName) <> (Theme.tupled, Theme.unapply)
+}
+//-----------------------------------------------------------------------------------------------------------
 
 case class ThemeToBook(id        : Option[Int],
-                       themeName : String,
+                       themeId   : Int,
                        bookId    : Int)
 
 class ThemesToBooks(tag : Tag)
@@ -70,14 +83,17 @@ class ThemesToBooks(tag : Tag)
 
   def id: Column[Int] = column[Int]("ID", O.PrimaryKey, O.AutoInc)
 
-  def themeName: Column[String] = column[String]("THEME_NAME", O.NotNull)
+  def themeId: Column[Int] = column[Int]("THEME_ID", O.NotNull)
 
   def bookId = column[Int]("BOOK_ID", O.NotNull)
 
-  def * : ProvenShape[ThemeToBook] = (id?, themeName, bookId) <> (ThemeToBook.tupled, ThemeToBook.unapply)
+  def * : ProvenShape[ThemeToBook] = (id?, themeId, bookId) <> (ThemeToBook.tupled, ThemeToBook.unapply)
 
   def book: ForeignKeyQuery[Books, Book] =
-    foreignKey("THEMES_TO_BOOKS_FK", bookId, TableQuery[Books])(_.id)
+    foreignKey("THEMES_TO_BOOKS__BOOKS_FK", bookId, TableQuery[Books])(_.id)
+
+  def theme: ForeignKeyQuery[Themes, Theme] =
+    foreignKey("THEMES_TO_BOOKS__THEMES_FK", themeId, TableQuery[Themes])(_.id)
 }
 
 //-----------------------------------------------------------------------------------------------------------
