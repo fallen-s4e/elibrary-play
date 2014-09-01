@@ -27,7 +27,7 @@ object Take extends Controller {
     SlickDAO.getPersonById(personId) match {
       case None => Redirect(routes.Take.take())
       case Some(person) => {
-        Ok(views.html.take.step2(person)(Forms.bookForm.discardingErrors))
+        Ok(views.html.take.step2(person)(Forms.bookIdForm.discardingErrors))
       }
     }
   }
@@ -37,7 +37,7 @@ object Take extends Controller {
     SlickDAO.getPersonById(personId) match {
       case None => Redirect(routes.Take.take())
       case Some(person) => {
-        Forms.bookForm.bindFromRequest.fold(
+        Forms.bookIdForm.bindFromRequest.fold(
           errors => {
             Ok(views.html.take.step2(person)(errors))
           },

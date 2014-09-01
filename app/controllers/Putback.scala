@@ -6,11 +6,11 @@ import play.api.mvc._
 object Putback extends Controller {
 
   def index = Action {
-    Ok(views.html.putback.index(Forms.bookForm.discardingErrors))
+    Ok(views.html.putback.index(Forms.bookIdForm.discardingErrors))
   }
 
   def submit = Action { implicit request =>
-    Forms.bookForm.bindFromRequest.fold(
+    Forms.bookIdForm.bindFromRequest.fold(
       errors => {
         Ok(views.html.putback.index(errors))
       },
