@@ -12,15 +12,15 @@ object Forms {
   val bookForm: Form[Book] = Form(
     // Define a mapping that will handle Person values
     mapping(
-      "bookId" -> number.verifying(
+      "barCode" -> nonEmptyText.verifying(
         // Add an additional constraint: book must exist
-        Messages.tr("errors.bookMustExist"), bookId => {
-          SlickDAO.getBookById(bookId).isDefined
+        Messages.tr("errors.bookMustExist"), barCode => {
+          SlickDAO.getBookByBarCode(barCode).isDefined
         }
       )
     )
-      (SlickDAO.getBookById(_).get)
-      ((b: Book) => b.id)
+      (SlickDAO.getBookByBarCode(_).get)
+      ((b: Book) => Some(b.barCode))
   )
 
   val personForm: Form[Person] = Form(
