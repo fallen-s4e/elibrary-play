@@ -1,7 +1,7 @@
 
 - library - filter only available
-- refactor with templates.formButton
 - pagination
 - autocomplete
 - query optimization
 - design
+- refactor with hidden fields

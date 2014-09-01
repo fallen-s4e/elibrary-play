@@ -17,9 +17,7 @@
             )
             <input type="hidden" name="personId" value="@person.id.get" >
 
-            <a href="@routes.Take.take()">
-                <input type="button" class="btn primary" value="@Messages.tr("prev")">
-            </a>
+            @templates.hrefButton(routes.Take.take())(Messages.tr("prev"))
             <input type="submit" class="btn primary" value="@Messages.tr("next")">
         </fieldset>
     }

@@ -15,9 +15,7 @@
                 '_help -> Messages.tr("enterPersonFIO"),
                 '_error -> formPerson.globalError
             )
-            <a href="@routes.Application.index()">
-                <input type="button" class="btn primary" value="@Messages.tr("prev")">
-            </a>
+            @templates.homeButton()
             <input type="submit" class="btn primary" value="@Messages.tr("next")">
         </fieldset>
     }

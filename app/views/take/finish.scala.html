@@ -4,8 +4,5 @@
 
 @templates.main("Welcome to Play 2.1") {
     @Messages.tr("bookIsBound"), @person.toFullName()
-    <br />
-    <a href="@routes.Application.index()">
-        <input type="button" class="btn primary" value="@Messages.tr("prev")">
-    </a>
+    @templates.homeButton()
 }
