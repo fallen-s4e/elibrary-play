@@ -212,7 +212,10 @@ class SlickFilledMemoryDAO extends SlickMemoryDAO {
     DummyRows.persons.foreach(insertPerson(_))
   }
   scala.util.control.Exception.ignoring(classOf[Exception]) {
-    DummyRows.books.foreach(insertBook(_))
+    DummyRows.books.foreach(book => {
+      insertBook(book)
+      addThemeToBook(book, DummyRows.themes.head)
+    })
   }
   scala.util.control.Exception.ignoring(classOf[Exception]) {
     initThemes()

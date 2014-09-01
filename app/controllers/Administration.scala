@@ -13,13 +13,13 @@ object Administration extends Controller {
    *  addition section
    */
   def addBook = Action {
-    Ok(views.html.administration.addBook(Forms.bookForm.discardingErrors))
+    Ok(views.html.administration.addBook(SlickDAO.getAllThemes())(Forms.bookForm.discardingErrors))
   }
 
   def submitAddBook = Action { implicit request => {
     Forms.bookForm.bindFromRequest.fold(
       errors => {
-        Ok(views.html.administration.addBook(errors))
+        Ok(views.html.administration.addBook(SlickDAO.getAllThemes())(errors))
       },
       book => {
         val bookId: Int = SlickDAO.insertBook(book)

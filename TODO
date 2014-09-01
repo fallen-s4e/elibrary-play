@@ -1,7 +1,8 @@
 
-- library - filter only available
-- pagination
+- theme types combobox
 - autocomplete
+- pagination
+- library - filter only available
 - query optimization
 - design
 - refactor with hidden fields

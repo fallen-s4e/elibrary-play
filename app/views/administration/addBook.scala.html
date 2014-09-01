@@ -1,4 +1,4 @@
-@(formBook : Form[Book])
+@(themes : List[String])(formBook : Form[Book])
 
 @import helper._
 @import helper.twitterBootstrap._
@@ -32,6 +32,10 @@
                 '_label -> Messages.tr("input.barCode"),
                 '_help -> Messages.tr("input.barCode.prompt"),
                 '_error -> formBook.globalError
+            )
+            @select(
+                formBook("bookType"),
+                themes.map(theme => theme -> Messages.tr(theme))
             )
             @inputText(
                 formBook("bookType"),
