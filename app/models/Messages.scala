@@ -39,6 +39,9 @@ object Messages {
     , "actions.take"               -> "Взять книгу"
     , "actions.home"               -> "Домой"
     , "actions.select"             -> "Выбрать"
+    , "actions.addBook"            -> "Добавить книгу"
+    , "actions.deleteBook"         -> "Удалить книгу"
+    , "actions.reports"            -> "Отчеты"
 
     // errors
     , "errors.personMustExist"     -> "Нет такого пользователя"
