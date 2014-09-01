@@ -166,14 +166,11 @@ sealed case class SlickDAOImpl(dbURL : String) extends IDAO {
 
 /** this class is for DAO unit tests */
 class SlickMemoryDAO
-  extends SlickDAOImpl("jdbc:h2:~/.h2-databases/elibrary/elibrary")
+  extends SlickDAOImpl("jdbc:h2:mem:elibrary:;DB_CLOSE_DELAY=-1")
 
 /** this class is for production mode */
 class SlickFileDAO
   extends SlickDAOImpl("jdbc:h2:~/.h2-databases/elibrary/elibrary")
-
-/** and this class is gonna be exported */
-//object SlickDAO extends SlickFilledMemoryDAO
 
 /** this class is for visual testing */
 class SlickFilledMemoryDAO extends SlickMemoryDAO {
