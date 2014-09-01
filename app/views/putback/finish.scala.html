@@ -6,8 +6,5 @@
 
 @templates.main("Welcome to Play 2.1") {
     @{ Messages.tr("bookReturned:") ++ (bookId.toString()) }
-    <br />
-    <a href="@routes.Application.index()">
-        <input type="button" class="btn primary" value="@Messages.tr("actions.home")">
-    </a>
+    @templates.homeButton()
 }

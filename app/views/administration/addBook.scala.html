@@ -39,9 +39,7 @@
                 '_help -> Messages.tr("input.bookType.prompt"),
                 '_error -> formBook.globalError
             )
-            <a href="@routes.Application.index()">
-                <input type="button" class="btn primary" value="@Messages.tr("actions.home")">
-            </a>
+            @templates.homeButton()
             <input type="submit" class="btn primary" value="@Messages.tr("next")">
         </fieldset>
     }

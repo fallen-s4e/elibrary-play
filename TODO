@@ -1,5 +1,4 @@
 
-- refactor: extract home button
 - library - filter only available
 - refactor with templates.formButton
 - pagination

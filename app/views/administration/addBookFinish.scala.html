@@ -6,9 +6,5 @@
 
 @templates.main("Welcome to Play 2.1") {
     @String.format(Messages.tr("info.bookWithBarcdIsAdded"), bookBarCode)
-
-    <br />
-    <a href="@routes.Application.index()">
-        <input type="button" class="btn primary" value="@Messages.tr("actions.home")">
-    </a>
+    @templates.homeButton()
 }
