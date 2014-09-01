@@ -1,0 +1,25 @@
+@(formBook : Form[Book])
+
+@import helper._
+@import helper.twitterBootstrap._
+@import models.Messages;
+
+@templates.main("Welcome to Play 2.1") {
+    @helper.form(action = routes.Administration.submitDeleteBook()) {
+        <fieldset>
+            <legend>@Messages.tr("bookInfo")</legend>
+
+            @inputText(
+                formBook("barCode"),
+                '_label -> Messages.tr("bookID"),
+                '_help -> Messages.tr("enterBookId"),
+                '_error -> formBook.globalError
+            )
+
+            <a href="@routes.Application.index()">
+                <input type="button" class="btn primary" value="@Messages.tr("prev")">
+            </a>
+            <input type="submit" class="btn primary" value="@Messages.tr("next")">
+        </fieldset>
+    }
+}

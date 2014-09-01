@@ -21,6 +21,7 @@ object Messages {
     , "bookReturned:"             -> "Книга была возвращена, ее номер: "
 
     , "info.bookWithBarcdIsAdded" -> "Книга со штрих кодом %s добавлена!"
+    , "info.bookWithBarcdDeleted" -> "Книга со штрих кодом %s удалена!"
 
     , "theme:"                    -> "Тема: "
     , "author"                    -> "Автор:"

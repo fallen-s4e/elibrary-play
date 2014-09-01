@@ -9,6 +9,9 @@ object Administration extends Controller {
     Ok(views.html.administration.index())
   }
 
+  /*
+   *  addition section
+   */
   def addBook = Action {
     Ok(views.html.administration.addBook(Forms.bookForm.discardingErrors))
   }
@@ -27,5 +30,27 @@ object Administration extends Controller {
 
   def addBookFinish(bookBarCode : String) = Action {
     Ok(views.html.administration.addBookFinish(bookBarCode))
+  }
+
+  /*
+   *  deletion section
+   */
+  def deleteBook = Action {
+    Ok(views.html.administration.deleteBook(Forms.bookIdForm.discardingErrors))
+  }
+
+  def submitDeleteBook = Action { implicit request => {
+    Forms.bookIdForm.bindFromRequest.fold(
+      errors => {
+        Ok(views.html.administration.deleteBook(errors))
+      },
+      book => {
+//        SlickDAO.deleteBook(book)
+        Redirect(routes.Administration.deleteBookFinish(book.barCode))
+      })
+  }}
+
+  def deleteBookFinish(bookBarCode : String) = Action {
+    Ok(views.html.administration.deleteBookFinish(bookBarCode))
   }
 }

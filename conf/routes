@@ -28,11 +28,14 @@ GET     /library/by-theme           controllers.Library.byTheme(theme : String)
 GET     /library/take-book          controllers.Library.takeBook(bookId : Int)
 GET     /library/submit             controllers.Library.submit(bookId : Int)
 
-# library
+# administration
 GET     /administration                    controllers.Administration.index
 GET     /administration/add-book           controllers.Administration.addBook
 GET     /administration/submit-add-book    controllers.Administration.submitAddBook
 GET     /administration/add-book-finish    controllers.Administration.addBookFinish(bookBarCode : String)
+GET     /administration/delete-book        controllers.Administration.deleteBook
+GET     /administration/submit-del-book    controllers.Administration.submitDeleteBook
+GET     /administration/del-book-finish    controllers.Administration.deleteBookFinish(bookBarCode : String)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /public/*file               controllers.Assets.at(path="/public", file)

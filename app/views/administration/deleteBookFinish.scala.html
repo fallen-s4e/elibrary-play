@@ -1,0 +1,14 @@
+@(bookBarCode : String)
+
+@import helper._
+@import helper.twitterBootstrap._
+@import models.Messages;
+
+@templates.main("Welcome to Play 2.1") {
+    @String.format(Messages.tr("info.bookWithBarcdDeleted"), bookBarCode)
+
+    <br />
+    <a href="@routes.Application.index()">
+        <input type="button" class="btn primary" value="@Messages.tr("actions.home")">
+    </a>
+}
