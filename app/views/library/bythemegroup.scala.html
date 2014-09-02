@@ -1,4 +1,4 @@
-@(themes : List[String])
+@(themes : List[Theme])
 
 @import helper._
 @import helper.twitterBootstrap._
@@ -10,10 +10,10 @@
         <legend>@Messages.tr("bookInfo")</legend>
 
         @for(theme <- themes) {
-            @helper.form(action = routes.Library.byTheme(theme)) {
-                <button type="submit" class="btn primary">@Messages.tr(theme)</button>
+            @helper.form(action = routes.Library.byTheme(theme.themeName)) {
+                <button type="submit" class="btn primary">@Messages.tr(theme.themeName)</button>
                 @{ /* have no idea why it should be here but it should */ }
-                <input type="hidden" name="theme" value="@theme" >
+                <input type="hidden" name="theme" value="@theme.themeName">
             }
         }
         @templates.homeButton()

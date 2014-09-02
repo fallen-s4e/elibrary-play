@@ -26,12 +26,15 @@ trait IDAO {
 
   def insertTheme(theme : Theme) : Int
   def getAllThemes() : List[Theme]
+  def getThemeByName(themeName : String) : Option[Theme]
   def addThemeToBook(book : Book, theme : Theme) : Unit
-  def addThemeToThemeGroup(theme : String, themeGroup : String) : Unit
+  def addThemeToThemeGroup(theme : Theme, themeGroup : ThemeGroup) : Unit
 
-  def getAllThemeGroups() : List[String]
-  def getBooksByTheme(theme : String) : List[Book]
-  def getThemesByThemegroup(themeGroup : String) : List[String]
+  def insertThemeGroup(themeGroup : ThemeGroup) : Int
+  def getAllThemeGroups() : List[ThemeGroup]
+  def getBooksByTheme(theme : Theme) : List[Book]
+  def getThemesByThemegroup(themeGroup : ThemeGroup) : List[Theme]
+  def getThemegroupByName(themeGroupName : String) : Option[ThemeGroup]
 }
 
 sealed case class SlickDAOImpl(dbURL : String) extends IDAO {
@@ -43,12 +46,13 @@ sealed case class SlickDAOImpl(dbURL : String) extends IDAO {
   val books                = TableQuery[Books]
   val themesToBooks        = TableQuery[ThemesToBooks]
   val themes               = TableQuery[Themes]
+  val themeGroups          = TableQuery[ThemeGroups]
   val themesToThemeGroups  = TableQuery[ThemesToThemeGroups]
 
   // if it can not create ddl it is already exist
   scala.util.control.Exception.ignoring(classOf[Exception]) {
     db.withSession { implicit session =>
-      List(persons, books, themes, themesToBooks, themesToThemeGroups).
+      List(persons, books, themes, themeGroups, themesToBooks, themesToThemeGroups).
         foreach(_.ddl.create)
     }
   }
@@ -100,6 +104,18 @@ sealed case class SlickDAOImpl(dbURL : String) extends IDAO {
     }}
   }
 
+  override def insertThemeGroup(themeGroup : ThemeGroup): Int = {
+    db.withSession { implicit session => {
+      (themeGroups returning themeGroups.map(_.id)) += themeGroup
+    }}
+  }
+
+  override def getThemeByName(themeName : String) : Option[Theme] = {
+    db.withSession { implicit session => {
+      themes.filter(_.themeName === themeName).list.headOption
+    }}
+  }
+
   override def getBookById(bookId: Int): Option[Book] = {
     db.withSession { implicit session => {
       val query: lifted.Query[Books, Book, Seq] = for { b <- books if b.id === bookId } yield b
@@ -131,7 +147,7 @@ sealed case class SlickDAOImpl(dbURL : String) extends IDAO {
     }}
   }
 
-  override def addThemeToThemeGroup(theme: String, themeGroup: String): Unit = {
+  override def addThemeToThemeGroup(theme: Theme, themeGroup: ThemeGroup): Unit = {
     logger.info(String.format("adding theme %s to themeGroup %s", theme, themeGroup))
     db.withSession { implicit session => {
       addThemeToThemeGroup_TransMandatory(session, theme, themeGroup)
@@ -139,32 +155,37 @@ sealed case class SlickDAOImpl(dbURL : String) extends IDAO {
   }
 
   protected def addThemeToThemeGroup_TransMandatory(implicit session: H2Driver.backend.Session,
-                                                    theme: String, themeGroup: String): Unit = {
-    if (themesToThemeGroups.filter(r => r.themeName === theme && r.themeGroupName === themeGroup).list.size == 0) {
-      themesToThemeGroups += ThemeToThemeGroup(None, theme, themeGroup)
+                                                    theme: Theme, themeGroup: ThemeGroup): Unit = {
+    if (themesToThemeGroups.filter(r => r.themeId === theme.id && r.themeGroupId === themeGroup.id).list.size == 0) {
+      themesToThemeGroups += ThemeToThemeGroup(None, theme.id.get, themeGroup.id.get)
     }
   }
 
-  override def getBooksByTheme(theme: String): List[Book] = {
+  override def getBooksByTheme(theme: Theme): List[Book] = {
     db.withSession { implicit session => {
-      val themeIds = themes.filter(_.themeName === theme).map(_.id).list
-      val id: Int = themeIds.headOption.getOrElse(throw new IllegalArgumentException("no theme with such themeName"))
       val query: lifted.Query[Books, Book, Seq] = for {
         ttb <- themesToBooks
         book <- books
-        if (ttb.themeId === id && ttb.bookId === book.id)
+        if (ttb.themeId === theme.id.get && ttb.bookId === book.id)
       } yield book
       query.list
     }}
   }
 
-  override def getThemesByThemegroup(themeGroup: String): List[String] = {
+  override def getThemesByThemegroup(themeGroup: ThemeGroup): List[Theme] = {
     db.withSession { implicit session => {
-      val query: lifted.Query[lifted.Column[String], String, Seq] = for {
+      val query: lifted.Query[Themes, Theme, Seq] = for {
         tttg <- themesToThemeGroups
-        if (tttg.themeGroupName === themeGroup)
-      } yield tttg.themeName
+        theme <- themes
+        if (tttg.themeGroupId === themeGroup.id.get && theme.id === tttg.themeId)
+      } yield theme
       query.list
+    }}
+  }
+
+  def getThemegroupByName(themeGroupName : String) : Option[ThemeGroup] = {
+    db.withSession { implicit session => {
+      themeGroups.filter(_.themeGroupName === themeGroupName).list.headOption
     }}
   }
 
@@ -175,9 +196,9 @@ sealed case class SlickDAOImpl(dbURL : String) extends IDAO {
         .update(None)
     }}
   }
-  override def getAllThemeGroups() : List[String] = {
+  override def getAllThemeGroups() : List[ThemeGroup] = {
     db.withSession { implicit session => {
-      themesToThemeGroups.groupBy(_.themeGroupName).map(_._1).list
+      themeGroups.list
     }}
   }
 
@@ -210,10 +231,18 @@ class SlickFileDAO
 /** this class is for visual testing */
 class SlickFilledMemoryDAO extends SlickMemoryDAO {
   def initThemes() = {
-    DummyRows.themeGrpToThemes.foreach((entry) => entry match {
-      case (themeGrp: String, themes: List[String]) => {
+    DummyRows.themeGrpToThemes.zipWithIndex.foreach(entry => entry match {
+      case ((themeGrp: String, themeList: List[String]), themeGrpId) => {
         db.withSession { implicit session => {
-          themes.map((theme) => addThemeToThemeGroup_TransMandatory(session, theme, themeGrp))
+          val themeGroup: ThemeGroup = ThemeGroup(Some(themeGrpId + 1), themeGrp)
+          themeGroups += themeGroup
+          themeList.zipWithIndex.foreach(_ match {
+            case (themeName, themeId) => {
+              val theme = Theme(Some(themeId + 1), themeName)
+              themes += theme
+              addThemeToThemeGroup_TransMandatory(session, theme, themeGroup)
+            }
+          })
         }}
       }
     })

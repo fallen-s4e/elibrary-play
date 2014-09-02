@@ -85,15 +85,18 @@ class DaoSpec extends Specification {
       slickDAO.insertBook(firstBook)
       slickDAO.insertTheme(firstTheme)
       slickDAO.addThemeToBook(firstBook, firstTheme)
-      List(firstBook) === slickDAO.getBooksByTheme(firstTheme.themeName)
+      List(firstBook) === slickDAO.getBooksByTheme(firstTheme)
     }
     "add theme to themeGroup and find theme ByThemeGroup" in {
       val slickDAO: IDAO = fresh()
-      val firstTheme: Theme       = DummyRows.themes.head
-      val firstThemeGroup: String = DummyRows.themeGroups.head
+      val firstTheme: Theme           = DummyRows.themes.head
+      val firstThemeGroupName: String = DummyRows.themeGroups.head
 
-      slickDAO.addThemeToThemeGroup(firstTheme.themeName, firstThemeGroup)
-      List(firstTheme.themeName) === slickDAO.getThemesByThemegroup(firstThemeGroup)
+      slickDAO.insertThemeGroup(ThemeGroup(Some(1), firstThemeGroupName))
+      slickDAO.insertTheme(firstTheme)
+      val firstThemeGroup : ThemeGroup = slickDAO.getThemegroupByName(firstThemeGroupName).get
+      slickDAO.addThemeToThemeGroup(firstTheme, firstThemeGroup)
+      List(firstTheme) === slickDAO.getThemesByThemegroup(firstThemeGroup)
     }
     "add a book to a person and put it back" in {
       val slickDAO: IDAO = fresh()
@@ -110,14 +113,22 @@ class DaoSpec extends Specification {
     }
     "add theme to themeGroup find allThemeGroups" in {
       val slickDAO: IDAO = fresh()
-      val firstTheme: Theme        = DummyRows.themes.head
-      val firstThemeGroup: String  = DummyRows.themeGroups.head
-      val secondThemeGroup: String = DummyRows.themeGroups.tail.head
+      val firstTheme: Theme            = DummyRows.themes.head
+      val firstThemeGroupName: String  = DummyRows.themeGroups.head
+      val secondThemeGroupName: String = DummyRows.themeGroups.tail.head
 
-      slickDAO.addThemeToThemeGroup(firstTheme.themeName, firstThemeGroup)
+      slickDAO.insertThemeGroup(ThemeGroup(None, firstThemeGroupName))
+      slickDAO.insertTheme(firstTheme)
+
+      val firstThemeGroup = slickDAO.getThemegroupByName(firstThemeGroupName).get
+
+      slickDAO.addThemeToThemeGroup(firstTheme, firstThemeGroup)
       List(firstThemeGroup) === slickDAO.getAllThemeGroups()
 
-      slickDAO.addThemeToThemeGroup(firstTheme.themeName, secondThemeGroup)
+      slickDAO.insertThemeGroup(ThemeGroup(None, secondThemeGroupName))
+      val secondThemeGroup = slickDAO.getThemegroupByName(secondThemeGroupName).get
+
+      slickDAO.addThemeToThemeGroup(firstTheme, secondThemeGroup)
       slickDAO.getAllThemeGroups().size === 2
     }
     "insert book, insert theme and delete it by barCode" in {
@@ -131,11 +142,11 @@ class DaoSpec extends Specification {
 
       slickDAO.addThemeToBook(firstBook, theme)
       Some(firstBook) === slickDAO.getBookByBarCode(firstBook.barCode)
-      List(firstBook) === slickDAO.getBooksByTheme(theme.themeName)
+      List(firstBook) === slickDAO.getBooksByTheme(theme)
 
       slickDAO.deleteBookByBarcode(firstBook.barCode)
       None   === slickDAO.getBookByBarCode(firstBook.barCode)
-      List() === slickDAO.getBooksByTheme(theme.themeName)
+      List() === slickDAO.getBooksByTheme(theme)
     }
   }
 }
