@@ -4,7 +4,7 @@
 @import helper.twitterBootstrap._
 @import models.Messages;
 
-@templates.main("Welcome to Play 2.1") {
+@templates.main {
     @helper.form(action = routes.Take.step3(person.id.get)) {
         <fieldset>
             <legend>@Messages.tr("bookInfo")</legend>
@@ -18,7 +18,7 @@
             <input type="hidden" name="personId" value="@person.id.get" >
 
             @templates.hrefButton(routes.Take.take())(Messages.tr("prev"))
-            <input type="submit" class="btn primary" value="@Messages.tr("next")">
+            @templates.nextButton()
         </fieldset>
     }
 }

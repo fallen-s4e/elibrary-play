@@ -4,7 +4,7 @@
 @import helper.twitterBootstrap._
 @import models.Messages;
 
-@templates.main("Welcome to Play 2.1") {
+@templates.main {
     @helper.form(action = routes.Administration.submitDeleteBook()) {
         <fieldset>
             <legend>@Messages.tr("bookInfo")</legend>
@@ -17,7 +17,7 @@
             )
 
             @templates.homeButton()
-            <input type="submit" class="btn primary" value="@Messages.tr("next")">
+            @templates.nextButton()
         </fieldset>
     }
 }

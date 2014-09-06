@@ -31,6 +31,8 @@ object Messages {
     , "available"                 -> "Доступна:"
     , "actions"                   -> "Действия:"
 
+    , "legends.personInfo"        -> "Информация о пользователе"
+
     , "yes"                       -> "да"
     , "no"                        -> "нет"
 

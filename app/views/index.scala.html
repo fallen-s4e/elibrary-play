@@ -1,7 +1,7 @@
 @()
 @import models.Messages;
 
-@templates.main("Welcome to Play 2.1") {
+@templates.main {
     @Messages.tr("selectAction")
 
     @{templates.formButton(routes.Take.take())                   (Messages.tr("actions.take"))           }
