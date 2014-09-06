@@ -86,6 +86,7 @@ class DaoSpec extends Specification {
       slickDAO.insertTheme(firstTheme)
       slickDAO.addThemeToBook(firstBook, firstTheme)
       List(firstBook) === slickDAO.getBooksByTheme(firstTheme)
+      Some(firstTheme) === slickDAO.getThemeByName(firstTheme.themeName)
     }
     "add theme to themeGroup and find theme ByThemeGroup" in {
       val slickDAO: IDAO = fresh()
