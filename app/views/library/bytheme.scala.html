@@ -30,7 +30,7 @@
                     <tr>
                         <td>@book.author</td>
                         <td>@book.bookName</td>
-                        <td>@book.bookType</td>
+                        <td>@Messages.tr(book.bookType)</td>
                         <td>@book.description</td>
                         <td>@(Messages.tr(if (book.personId == None) "yes" else "no"))</td>
                         <td>
