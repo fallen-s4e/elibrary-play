@@ -9,13 +9,13 @@ object Take extends Controller {
 
   // step1: form where user choose his/her name
   def take = Action {
-    Ok(views.html.take.step1(Forms.personForm.discardingErrors))
+    Ok(views.html.take.step1(Completions.personCompletion())( Forms.personForm.discardingErrors))
   }
 
   def step1 = Action { implicit request =>
     Forms.personForm.bindFromRequest.fold(
       // Form has errors, redisplay it
-      errors => Ok(views.html.take.step1(errors)),
+      errors => Ok(views.html.take.step1(Completions.personCompletion())(errors)),
 
       // We got a valid User value, display the summary
       person => Redirect(routes.Take.step2(person.id.get))

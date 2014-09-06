@@ -1,7 +1,4 @@
 
-- tests for:
-        def getThemegroupByName(themeGroupName : String) : Option[ThemeGroup]
-        def getThemeByName(themeName : String) : Option[Theme]
 - autocomplete
 - pagination
 - library - filter only available
@@ -10,3 +7,5 @@
 - refactor with hidden fields
 - refactor translations and make them type-safe
 - refactor DAO and generalize getById etc
+
+https://developers.google.com/speed/libraries/devguide?hl=ru

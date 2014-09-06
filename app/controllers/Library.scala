@@ -22,13 +22,13 @@ object Library extends Controller {
   }
 
   def takeBook(bookId : Int) = Action {
-    Ok(views.html.library.takeBook(bookId)(Forms.personForm.discardingErrors))
+    Ok(views.html.library.takeBook(Completions.personCompletion())(bookId)(Forms.personForm.discardingErrors))
   }
 
   def submit(bookId : Int) = Action { implicit request =>
     Forms.personForm.bindFromRequest.fold(
       errors => {
-        Ok(views.html.library.takeBook(bookId)(errors))
+        Ok(views.html.library.takeBook(Completions.personCompletion())(bookId)(errors))
       },
       person => {
         SlickDAO.addBookToPerson(person, SlickDAO.getBookById(bookId).get)

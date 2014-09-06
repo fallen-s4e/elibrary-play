@@ -1,4 +1,4 @@
-@(bookId : Int)(formPerson : Form[Person])
+@(personCompletion : String)(bookId : Int)(formPerson : Form[Person])
 
 @import helper._
 @import helper.twitterBootstrap._
@@ -13,6 +13,7 @@
         <fieldset>
             <legend>Book info</legend>
 
+            @{templates.autocomplete("#personFIO")(Html(personCompletion))}
             @inputText(
                 formPerson("personFIO"),
                 '_label -> Messages.tr("personFIO"),
