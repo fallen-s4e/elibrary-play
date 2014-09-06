@@ -12,7 +12,9 @@
     <fieldset>
         <legend>@{ Messages.tr("theme:") ++ Messages.tr(theme.themeName) }</legend>
 
-        <table style="text-align: center; border: 1px double black; width: 100%;">
+        @templates.pagination("#bookTable")
+
+        <table id="bookTable" style="text-align: center; border: 1px double black; width: 100%;">
             <thead>
                 <tr>
                     <td>@Messages.tr("author")</td>
