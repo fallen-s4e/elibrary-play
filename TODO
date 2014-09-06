@@ -1,6 +1,4 @@
 
-- autocomplete
-- pagination
 - library - filter only available
 - query optimization
 - design
@@ -9,3 +7,5 @@
 - refactor DAO and generalize getById etc
 
 https://developers.google.com/speed/libraries/devguide?hl=ru
+
+http://en.wikipedia.org/wiki/Content_delivery_network
