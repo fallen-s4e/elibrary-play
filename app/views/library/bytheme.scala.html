@@ -1,4 +1,4 @@
-@(theme : String, books : List[Book])
+@(theme : Theme, books : List[Book])
 
 @import helper._
 @import helper.twitterBootstrap._
@@ -10,7 +10,7 @@
 
 @templates.main("Welcome to Play 2.1") {
     <fieldset>
-        <legend>@{ Messages.tr("theme:") ++ Messages.tr(theme) }</legend>
+        <legend>@{ Messages.tr("theme:") ++ Messages.tr(theme.themeName) }</legend>
 
         <table style="text-align: center; border: 1px double black; width: 100%;">
             <thead>

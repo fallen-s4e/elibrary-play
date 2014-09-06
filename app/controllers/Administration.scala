@@ -23,7 +23,8 @@ object Administration extends Controller {
       },
       book => {
         val bookId: Int = SlickDAO.insertBook(book)
-        SlickDAO.addThemeToBook(SlickDAO.getBookById(bookId).get, book.bookType)
+        val theme = SlickDAO.getAllThemes().filter(_.themeName == book.bookType).head
+        SlickDAO.addThemeToBook(SlickDAO.getBookById(bookId).get, theme)
         Redirect(routes.Administration.addBookFinish(book.barCode))
       })
   }}

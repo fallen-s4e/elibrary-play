@@ -9,11 +9,15 @@ object Library extends Controller {
     Ok(views.html.library.index(SlickDAO.getAllThemeGroups()))
   }
 
-  def byThemeGroup(themeGroup : String) = Action {
+  def byThemeGroup(themeGroupName : String) = Action {
+    val themeGroup = SlickDAO.getThemegroupByName(themeGroupName).getOrElse(
+      throw new IllegalArgumentException("no themeGroup with name " + themeGroupName))
     Ok(views.html.library.bythemegroup(SlickDAO.getThemesByThemegroup(themeGroup)))
   }
 
-  def byTheme(theme : String) = Action {
+  def byTheme(themeName : String) = Action {
+    val theme = SlickDAO.getThemeByName(themeName).getOrElse(
+      throw new IllegalArgumentException("no theme with name " + themeName))
     Ok(views.html.library.bytheme(theme, SlickDAO.getBooksByTheme(theme)))
   }
 

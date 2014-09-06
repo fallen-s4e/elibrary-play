@@ -1,4 +1,4 @@
-@(themes : List[String])(formBook : Form[Book])
+@(themes : List[Theme])(formBook : Form[Book])
 
 @import helper._
 @import helper.twitterBootstrap._
@@ -35,13 +35,7 @@
             )
             @select(
                 formBook("bookType"),
-                themes.map(theme => theme -> Messages.tr(theme))
-            )
-            @inputText(
-                formBook("bookType"),
-                '_label -> Messages.tr("input.bookType"),
-                '_help -> Messages.tr("input.bookType.prompt"),
-                '_error -> formBook.globalError
+                themes.map(theme => theme.themeName -> Messages.tr(theme.themeName))
             )
             @templates.homeButton()
             <input type="submit" class="btn primary" value="@Messages.tr("next")">
