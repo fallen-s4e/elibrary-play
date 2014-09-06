@@ -37,12 +37,6 @@
                 formBook("bookType"),
                 themes.map(theme => theme.themeName -> Messages.tr(theme.themeName))
             )
-            @inputText(
-                formBook("bookType"),
-                '_label -> Messages.tr("input.bookType"),
-                '_help -> Messages.tr("input.bookType.prompt"),
-                '_error -> formBook.globalError
-            )
             @templates.homeButton()
             <input type="submit" class="btn primary" value="@Messages.tr("next")">
         </fieldset>
