@@ -1,4 +1,4 @@
-@(formPerson : Form[Person])
+@(personCompletion : String)(formPerson : Form[Person])
 
 @import helper._
 @import helper.twitterBootstrap._
@@ -12,8 +12,7 @@
             <script>
             $(function() {
                 var availableTags = [
-                    "ActionScript",
-                    "AppleScript"
+                    @Html(personCompletion)
                 ];
                 $( "#personFIO" ).autocomplete({
                     source: availableTags
