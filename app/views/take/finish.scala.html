@@ -2,7 +2,7 @@
 
 @import models.Messages;
 
-@templates.main("Welcome to Play 2.1") {
+@templates.main {
     @Messages.tr("bookIsBound"), @person.toFullName()
     @templates.homeButton()
 }

@@ -9,7 +9,7 @@
 @import helper.twitterBootstrap._
 @import models._
 
-@templates.main("Welcome to Play 2.1") {
+@templates.main {
     @helper.form(action = routes.Library.submit(bookId)) {
         <fieldset>
             <legend>@Messages.tr("legends.personInfo")</legend>

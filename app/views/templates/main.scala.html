@@ -1,4 +1,4 @@
-@(title: String)(content: Html)
+@(content: Html)
 
 
 @import models.Messages;
@@ -8,7 +8,7 @@
 
 <html>
     <head>
-        <title>@title</title>
+        <title>@Messages.tr("libraryTitle")</title>
         <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
         <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/bootstrap.css")">
         <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("../../../public/images/favicon.png")">

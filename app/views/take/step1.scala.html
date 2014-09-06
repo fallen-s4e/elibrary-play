@@ -4,7 +4,7 @@
 @import helper.twitterBootstrap._
 @import models.Messages;
 
-@templates.main("Welcome to Play 2.1") {
+@templates.main {
     @helper.form(action = routes.Take.step1()) {
         <fieldset>
             <legend>@Messages.tr("legends.personInfo")</legend>

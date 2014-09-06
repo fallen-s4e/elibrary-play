@@ -2,7 +2,7 @@
 
 @import models.Messages;
 
-@templates.main("Welcome to Play 2.1") {
+@templates.main {
     @{templates.formButton(routes.Administration.addBook())      (Messages.tr("actions.addBook")) }
     @{templates.formButton(routes.Administration.deleteBook())   (Messages.tr("actions.deleteBook")) }
     @{templates.formButton(routes.Administration.index())        (Messages.tr("actions.reports")) }
