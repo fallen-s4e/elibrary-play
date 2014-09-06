@@ -10832,7 +10832,7 @@
 				 *      } );
 				 *    } );
                      */
-                    "sNext": "Next",
+                    "sNext": "Следующая",
 
 
                     /**
@@ -10855,7 +10855,7 @@
 				 *      } );
 				 *    } );
                      */
-                    "sPrevious": "Previous"
+                    "sPrevious": "Предыдущая"
                 },
 
                 /**
@@ -10910,7 +10910,7 @@
 			 *      } );
 			 *    } );
                  */
-                "sInfo": "Showing _START_ to _END_ of _TOTAL_ entries",
+                "sInfo": "Показано с _START_ до _END_ из _TOTAL_ строк",
 
 
                 /**
@@ -11071,7 +11071,7 @@
 			 *      } );
 			 *    } );
                  */
-                "sLengthMenu": "Show _MENU_ entries",
+                "sLengthMenu": "Показывать по _MENU_ строк",
 
 
                 /**
@@ -11151,7 +11151,7 @@
 			 *      } );
 			 *    } );
                  */
-                "sSearch": "Search:",
+                "sSearch": "Поиск:",
 
 
                 /**
