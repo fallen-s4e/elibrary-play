@@ -7,11 +7,12 @@
 
 @import helper._
 @import helper.twitterBootstrap._
+@import models._
 
 @templates.main("Welcome to Play 2.1") {
     @helper.form(action = routes.Library.submit(bookId)) {
         <fieldset>
-            <legend>Book info</legend>
+            <legend>@Messages.tr("legends.personInfo")</legend>
 
             @{templates.autocomplete("#personFIO")(Html(personCompletion))}
             @inputText(
@@ -24,8 +25,7 @@
             <input type="hidden" name="bookId" value="@bookId" >
 
             @templates.homeButton()
-
-            <input type="submit" class="btn primary" value="@Messages.tr("next")">
+            @templates.nextButton()
         </fieldset>
     }
 }
