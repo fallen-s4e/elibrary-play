@@ -1,5 +1,4 @@
 
-- library/index - fix
 - design
 - refactor with hidden fields
 - refactor translations and make them type-safe

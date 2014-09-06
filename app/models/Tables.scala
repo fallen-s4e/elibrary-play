@@ -51,6 +51,8 @@ class Books(tag : Tag)
 
   def personId: Column[Option[Int]] = column[Int]("PERSON_ID", O.Nullable)
 
+  def bookIdx = index("books_idx", (bookName, author), unique = true)
+
   // Every table needs a * projection with the same type as the table's type parameter
   def * : ProvenShape[Book] =
     (id.?, bookName, author, description, barCode, bookType, personId) <> (Book.tupled, Book.unapply)
@@ -69,6 +71,8 @@ class Themes(tag : Tag)
   def id: Column[Int] = column[Int]("ID", O.PrimaryKey, O.AutoInc)
 
   def themeName    : Column[String] = column[String]("THEME_NAME",  O.NotNull)
+
+  def themeNameIndex = index("themeName_index", (themeName), unique = true)
 
   def * : ProvenShape[Theme] = (id?, themeName) <> (Theme.tupled, Theme.unapply)
 }
@@ -107,6 +111,8 @@ class ThemeGroups(tag : Tag)
   def id: Column[Int] = column[Int]("ID", O.PrimaryKey, O.AutoInc)
 
   def themeGroupName : Column[String] = column[String]("THEME_GROUP_NAME",  O.NotNull)
+
+  def themeGroupNameIndex = index("themeGroupName_index", (themeGroupName), unique = true)
 
   def * : ProvenShape[ThemeGroup] = (id?, themeGroupName) <> (ThemeGroup.tupled, ThemeGroup.unapply)
 }
