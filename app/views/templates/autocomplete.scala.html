@@ -1,0 +1,14 @@
+@(inputId : String)(completions : Html)
+
+@import models.Messages;
+
+<script>
+    $(function() {
+        var availableTags = [
+            @completions
+        ];
+        $( "#asd" ).autocomplete({
+            source: availableTags
+        });
+    });
+</script>

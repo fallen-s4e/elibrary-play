@@ -1,7 +1,4 @@
 
-- tests for:
-        def getThemegroupByName(themeGroupName : String) : Option[ThemeGroup]
-        def getThemeByName(themeName : String) : Option[Theme]
 - autocomplete
 - pagination
 - library - filter only available

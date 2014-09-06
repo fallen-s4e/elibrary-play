@@ -9,16 +9,7 @@
         <fieldset>
             <legend>Account informations</legend>
 
-            <script>
-            $(function() {
-                var availableTags = [
-                    @Html(personCompletion)
-                ];
-                $( "#personFIO" ).autocomplete({
-                    source: availableTags
-                });
-            });
-            </script>
+            @{templates.autocomplete("#personFIO")(Html(personCompletion))}
             @inputText(
                 formPerson("personFIO"),
                 '_label -> Messages.tr("personFIO"),
