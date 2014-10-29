@@ -1,5 +1,9 @@
 
+
+- translations on validating etc
+- reports
 - authorization with http://securesocial.ws/guide/password-change.html or https://github.com/t2v/play2-auth
+    or https://www.playframework.com/documentation/2.1.0/JavaGuide4
 - design
 - refactor with hidden fields
 - refactor translations and make them type-safe
