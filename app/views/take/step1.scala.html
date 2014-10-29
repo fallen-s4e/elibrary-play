@@ -12,6 +12,7 @@
             @{templates.autocomplete("#personFIO")(Html(personCompletion))}
             @inputText(
                 formPerson("personFIO"),
+                'id -> "personFIO",
                 '_label -> Messages.tr("personFIO"),
                 '_help -> Messages.tr("enterPersonFIO"),
                 '_error -> formPerson.globalError
